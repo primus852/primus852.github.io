@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <link type="text/css" rel="stylesheet" href="css/tree-fold.min.css">
+<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <ul class="treeView">
@@ -29,5 +30,17 @@
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/tree-fold.min.js"></script>
+    <script>
+        $(function () {
+            $('.treeView').treeFold({
+            openedClass: 'fa-folder-open',
+            closedClass: 'fa-folder',
+            onLastItem: function(row){
+                var a = row.attr('data-link');
+                alert('TAKE ME TO: '+ a);
+            }
+        });
+        });
+    </script>
 </body>
 </html>
