@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adverb-Detektiv · Übung zu Adverbien · Klasse 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef6e4;
+    --bg-2: #f3d2c1;
+    --ink: #001858;
+    --ink-soft: #172c66;
+    --paper: #fffaf0;
+    --accent: #f582ae;
+    --accent-2: #8bd3dd;
+    --good: #2e7d4f;
+    --good-bg: #d4f1d6;
+    --bad: #b3261e;
+    --bad-bg: #fbd6d3;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-soft: 4px 4px 0 var(--ink);
+
+    /* Adverb type colors */
+    --temp: #ffd166;
+    --temp-ink: #5e4200;
+    --modal: #c8b6ff;
+    --modal-ink: #2e1a73;
+    --lokal: #8bd3dd;
+    --lokal-ink: #003c4a;
+    --kausal: #f582ae;
+    --kausal-ink: #5a0e35;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { min-height: 100%; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(245, 130, 174, 0.18) 0, transparent 35%),
+      radial-gradient(circle at 85% 80%, rgba(139, 211, 221, 0.22) 0, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(243, 210, 193, 0.15) 0, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Decorative floating words */
+  .floater {
+    position: fixed;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    color: var(--ink);
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    animation: float 14s ease-in-out infinite;
+  }
+  .floater:nth-child(1) { top: 8%; left: 5%; font-size: 90px; animation-delay: 0s; }
+  .floater:nth-child(2) { top: 70%; left: 80%; font-size: 110px; animation-delay: -3s; }
+  .floater:nth-child(3) { top: 75%; left: 10%; font-size: 80px; animation-delay: -6s; }
+  .floater:nth-child(4) { top: 15%; left: 75%; font-size: 100px; animation-delay: -9s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50% { transform: translateY(-25px) rotate(6deg); }
+  }
+
+  header {
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 1;
+    box-shadow: var(--shadow-soft);
+    transform: rotate(-5deg);
+  }
+
+  .brand h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .brand .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .score {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .score-icon { font-size: 18px; }
+
+  .progress-bar {
+    width: 200px;
+    height: 14px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .slide {
+    width: 100%;
+    max-width: 920px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 40px;
+    position: relative;
+    display: none;
+    animation: slideIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .slide.active { display: block; }
+
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .slide h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    margin-bottom: 14px;
+  }
+
+  .slide h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .slide .lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Welcome rule cards ---------- */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 24px;
+    margin-bottom: 28px;
+  }
+
+  .rule-card {
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 18px;
+    transition: transform 0.25s, box-shadow 0.25s;
+    position: relative;
+  }
+
+  .rule-card.temporal { background: var(--temp); color: var(--temp-ink); }
+  .rule-card.modal { background: var(--modal); color: var(--modal-ink); }
+  .rule-card.lokal { background: var(--lokal); color: var(--lokal-ink); }
+  .rule-card.kausal { background: var(--kausal); color: var(--kausal-ink); }
+
+  .rule-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .rule-icon {
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .rule-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 900;
+    margin: 4px 0 6px;
+  }
+
+  .rule-card .question-word {
+    font-style: italic;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .rule-card .examples {
+    font-size: 13px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px dashed var(--ink);
+    line-height: 1.5;
+  }
+
+  /* ---------- Exercise area ---------- */
+  .question-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+
+  .step-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .step-dot.active {
+    background: var(--accent);
+    color: var(--paper);
+    border-color: var(--ink);
+    transform: scale(1.1);
+  }
+
+  .step-dot.done {
+    background: var(--good);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  .step-line {
+    width: 24px;
+    height: 2px;
+    background: var(--ink);
+    opacity: 0.3;
+  }
+
+  .sentence-area {
+    background: var(--bg);
+    border: 3px dashed var(--ink);
+    border-radius: 18px;
+    padding: 28px;
+    margin: 20px 0 24px;
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    line-height: 2;
+    text-align: left;
+    word-spacing: 0.05em;
+  }
+
+  .word {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 0 1px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.18s;
+    border: 2px solid transparent;
+  }
+
+  /* Words that aren't clickable (when adverb already chosen correctly OR after answer revealed) */
+  .word.locked {
+    cursor: default;
+  }
+
+  .word:not(.locked):hover {
+    background: var(--accent-2);
+    transform: translateY(-2px);
+  }
+
+  .word.selected {
+    background: var(--accent);
+    border-color: var(--ink);
+    color: var(--paper);
+    animation: selectPop 0.3s ease;
+  }
+
+  @keyframes selectPop {
+    0% { transform: scale(0.9); }
+    60% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+
+  /* When wrong word picked */
+  .word.wrong-pick {
+    background: var(--bad-bg);
+    color: var(--bad);
+    border-color: var(--bad);
+    animation: shake 0.4s;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  /* Reveal: highlight correct adverb */
+  .word.reveal-correct {
+    background: var(--good-bg);
+    color: var(--good);
+    border-color: var(--good);
+    border-style: solid;
+    border-width: 2px;
+  }
+
+  /* Type-color highlight on confirmation */
+  .word.type-temp { background: var(--temp); color: var(--temp-ink); border-color: var(--temp-ink); }
+  .word.type-modal { background: var(--modal); color: var(--modal-ink); border-color: var(--modal-ink); }
+  .word.type-lokal { background: var(--lokal); color: var(--lokal-ink); border-color: var(--lokal-ink); }
+  .word.type-kausal { background: var(--kausal); color: var(--kausal-ink); border-color: var(--kausal-ink); }
+
+  /* ---------- Type selector buttons ---------- */
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .type-btn {
+    padding: 16px 10px;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 16px;
+    text-align: center;
+    background: var(--paper);
+    color: var(--ink);
+    transition: all 0.15s;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .type-btn .type-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .type-btn .type-q {
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+    display: block;
+  }
+
+  .type-btn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .type-btn:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .type-btn[data-type="temporal"]:hover:not(:disabled) { background: var(--temp); }
+  .type-btn[data-type="modal"]:hover:not(:disabled) { background: var(--modal); }
+  .type-btn[data-type="lokal"]:hover:not(:disabled) { background: var(--lokal); }
+  .type-btn[data-type="kausal"]:hover:not(:disabled) { background: var(--kausal); }
+
+  .type-btn.correct-answer {
+    animation: correctPulse 0.6s ease;
+  }
+  .type-btn.correct-answer[data-type="temporal"] { background: var(--temp); }
+  .type-btn.correct-answer[data-type="modal"] { background: var(--modal); }
+  .type-btn.correct-answer[data-type="lokal"] { background: var(--lokal); }
+  .type-btn.correct-answer[data-type="kausal"] { background: var(--kausal); }
+
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); box-shadow: 8px 8px 0 var(--ink); }
+    100% { transform: scale(1); }
+  }
+
+  .type-btn.wrong-answer {
+    background: var(--bad-bg);
+    color: var(--bad);
+    animation: shake 0.4s;
+  }
+
+  .type-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+
+  /* ---------- Feedback ---------- */
+  .feedback {
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: none;
+    font-size: 15px;
+    line-height: 1.5;
+    border: 2px solid;
+    animation: slideIn 0.4s ease;
+  }
+  .feedback.show { display: block; }
+  .feedback.success { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+  .feedback.error { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+  .feedback.info { background: var(--bg-2); border-color: var(--ink); color: var(--ink); }
+  .feedback strong {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ---------- Action row ---------- */
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .hint-btn {
+    background: transparent;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .hint-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .hint-text {
+    margin-top: 8px;
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .hint-text.show { display: block; }
+
+  .btn {
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    color: var(--ink);
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-soft);
+  }
+  .btn.success-btn { background: var(--good); color: var(--paper); }
+
+  /* ---------- Result slide ---------- */
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--bg);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .badge-area {
+    text-align: center;
+    margin: 24px 0;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 14px 32px;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    box-shadow: var(--shadow-soft);
+    animation: badgePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes badgePop {
+    0% { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    top: -20px;
+    z-index: 100;
+    animation: confettiFall 3s linear forwards;
+    pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .welcome { text-align: center; }
+  .welcome h2 { font-size: 52px; margin-bottom: 8px; }
+  .welcome .lead { font-size: 18px; margin-bottom: 8px; }
+
+  .legend {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  @media (max-width: 720px) {
+    .slide { padding: 24px; }
+    .slide h2 { font-size: 28px; }
+    .sentence-area { font-size: 20px; padding: 22px 14px; }
+    .intro-grid, .result-grid { grid-template-columns: 1fr; }
+    .type-grid { grid-template-columns: 1fr 1fr; }
+    .progress-bar { width: 120px; }
+    header { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
+    .welcome h2 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="floater">wann?</div>
+<div class="floater">wo?</div>
+<div class="floater">warum?</div>
+<div class="floater">wie?</div>
+
+<header>
+  <div class="brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>Adverb-Detektiv</h1>
+      <div class="sub">Klasse 6 · Übung Adverbien</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="score">
+      <span class="score-icon">⭐</span>
+      <span id="scoreVal">0</span> Punkte
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+  </div>
+</header>
+
+<main id="slideContainer">
+
+  <!-- ====== Welcome Slide ====== -->
+  <section class="slide active" data-slide="welcome">
+    <div class="welcome">
+      <span class="tag">Los geht's!</span>
+      <h2>Werde zum <em>Adverb-Detektiv</em>!</h2>
+      <p class="lead">Finde in <strong id="totalQ">10</strong> Sätzen das <strong>Adverb</strong> und entscheide, welche Art es ist: <em>Temporal-, Modal-, Lokal-</em> oder <em>Kausaladverb</em>. Bei jedem Start gibt's neue Sätze!</p>
+
+      <div class="intro-grid">
+        <div class="rule-card temporal">
+          <div class="rule-icon">⏰</div>
+          <h3>Temporaladverb</h3>
+          <div class="question-word">Frage: Wann? Wie oft? Wie lange?</div>
+          <div class="examples"><strong>heute, gestern, morgen, oft, immer, bald, nie, manchmal, jetzt</strong></div>
+        </div>
+        <div class="rule-card modal">
+          <div class="rule-icon">🎭</div>
+          <h3>Modaladverb</h3>
+          <div class="question-word">Frage: Wie? Auf welche Art?</div>
+          <div class="examples"><strong>schnell, gerne, leise, gut, sehr, kaum, vielleicht, sicher</strong></div>
+        </div>
+        <div class="rule-card lokal">
+          <div class="rule-icon">📍</div>
+          <h3>Lokaladverb</h3>
+          <div class="question-word">Frage: Wo? Wohin? Woher?</div>
+          <div class="examples"><strong>hier, dort, oben, unten, drinnen, draußen, überall, links</strong></div>
+        </div>
+        <div class="rule-card kausal">
+          <div class="rule-icon">💡</div>
+          <h3>Kausaladverb</h3>
+          <div class="question-word">Frage: Warum? Weshalb?</div>
+          <div class="examples"><strong>deshalb, deswegen, darum, daher, folglich, trotzdem</strong></div>
+        </div>
+      </div>
+
+      <button class="btn" onclick="startExercise()">Übung starten →</button>
+    </div>
+  </section>
+
+  <!-- Exercise slides will be generated -->
+
+  <!-- ====== Result Slide ====== -->
+  <section class="slide" data-slide="result">
+    <span class="tag">Fertig!</span>
+    <h2>Du hast es <em>geschafft!</em></h2>
+    <p class="lead">Hier ist dein Ergebnis. Möchtest du nochmal üben?</p>
+
+    <div class="badge-area">
+      <div class="badge" id="finalBadge">🌟 Adverb-Profi</div>
+    </div>
+
+    <div class="result-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="finalScore">0</div>
+        <div class="stat-label">Punkte gesamt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalCorrect">0/10</div>
+        <div class="stat-label">Richtige Sätze</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalPercent">0%</div>
+        <div class="stat-label">Erfolgsquote</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="btn" onclick="restart()">🔁 Nochmal üben</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ============= Adverb Pool =============
+  // Each entry: { word, type, hint }
+  // Types: temporal, modal, lokal, kausal
+  const ADVERBS = {
+    temporal: ["heute", "gestern", "morgen", "oft", "immer", "bald", "nie", "manchmal", "jetzt", "gleich", "früh", "spät", "selten", "täglich"],
+    modal: ["schnell", "gerne", "leise", "laut", "gut", "schlecht", "sehr", "kaum", "vielleicht", "sicher", "fleißig", "ruhig", "vorsichtig", "deutlich"],
+    lokal: ["hier", "dort", "oben", "unten", "drinnen", "draußen", "überall", "links", "rechts", "vorne", "hinten", "irgendwo", "nirgendwo"],
+    kausal: ["deshalb", "deswegen", "darum", "daher", "folglich", "trotzdem", "dennoch", "somit"]
+  };
+
+  // Helpers
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const shuffle = arr => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // Capitalize the first letter of the first word in the sentence.
+  // Also update `adverb` if the adverb happens to be the first word.
+  function capitalize(ex) {
+    if (!ex.words.length) return ex;
+    const first = ex.words[0];
+    const upcased = first.charAt(0).toUpperCase() + first.slice(1);
+    ex.words[0] = upcased;
+    // If the adverb was at index 0, update its display value too
+    if (ex.adverbIndex === 0) {
+      ex.adverb = ex.adverb.charAt(0).toUpperCase() + ex.adverb.slice(1);
+    }
+    return ex;
+  }
+
+  // Word pools for sentence subjects/predicates
+  const NAMES = ["Lisa", "Max", "Anna", "Tim", "Mia", "Paul", "Emma", "Jonas", "Lena", "Felix", "Sophie", "Ben", "Hannah", "Leon", "Marie", "Noah"];
+
+  // ============= Sentence Templates =============
+  // Each template returns { words: [...], adverbIndex: n, type: 'temporal'|... }
+  // The adverb word is wrapped naturally — we mark its position so the renderer
+  // can highlight it on the correct click.
+  const templates = [
+
+    // --- TEMPORAL ---
+    () => {
+      // These are present-tense sentences; exclude purely past adverbs
+      const safeAdverbs = ADVERBS.temporal.filter(a => a !== "gestern");
+      const adv = pick(safeAdverbs);
+      const subj = pick(NAMES);
+      const variations = [
+        [subj, "geht", adv, "in", "die", "Schule."],
+        [adv, "spielt", subj, "im", "Garten."],
+        [subj, "macht", adv, "die", "Hausaufgaben."],
+        [subj, "trifft", "sich", adv, "mit", "Freunden."],
+        [adv, "regnet", "es", "in", "Strömen."],
+        [subj, "kommt", adv, "nach", "Hause."]
+      ];
+      const words = pick(variations);
+      const idx = words.indexOf(adv);
+      return { words, adverbIndex: idx, type: "temporal", adverb: adv };
+    },
+    () => {
+      const adv = pick(ADVERBS.temporal);
+      const subj = pick(NAMES);
+      const variations = [
+        ["Wir", "fahren", adv, "in", "den", "Urlaub."],
+        ["Die", "Sonne", "scheint", adv, "sehr", "hell."],
+        [subj, "und", "ich", "treffen", "uns", adv + "."],
+        ["Ich", "lese", adv, "ein", "spannendes", "Buch."],
+        [adv, "essen", "wir", "Pizza."],
+        ["Mein", "Bruder", "kommt", adv, "zu", "Besuch."]
+      ];
+      // Filter out past-tense adverbs ("gestern", "früh", "spät") for present-tense future-leaning sentences
+      // Actually all these sentences are present tense; past adverbs don't work.
+      // Restrict the adverb pool here:
+      const safeAdverbs = ADVERBS.temporal.filter(a => !["gestern", "früh", "spät"].includes(a));
+      const safeAdv = pick(safeAdverbs);
+      const variations2 = [
+        ["Wir", "fahren", safeAdv, "in", "den", "Urlaub."],
+        ["Die", "Sonne", "scheint", safeAdv, "sehr", "hell."],
+        [subj, "und", "ich", "treffen", "uns", safeAdv + "."],
+        ["Ich", "lese", safeAdv, "ein", "spannendes", "Buch."],
+        [safeAdv, "essen", "wir", "Pizza."],
+        ["Mein", "Bruder", "kommt", safeAdv, "zu", "Besuch."]
+      ];
+      const words = pick(variations2);
+      let idx = words.findIndex(w => w === safeAdv || w === safeAdv + ".");
+      return { words, adverbIndex: idx, type: "temporal", adverb: safeAdv };
+    },
+
+    // --- MODAL ---
+    () => {
+      const subj = pick(NAMES);
+      // Constrain by context: each variation gets its own compatible adverb pool
+      const ctx = pick([
+        { sentence: (a) => [subj, "läuft", a, "über", "den", "Hof."], adverbs: ["schnell", "vorsichtig", "fleißig", "ruhig"] },
+        { sentence: (a) => ["Der", "Hund", "bellt", a, "in", "der", "Nacht."], adverbs: ["laut", "leise", "kaum", "vielleicht"] },
+        { sentence: (a) => [subj, "lernt", a, "für", "die", "Klassenarbeit."], adverbs: ["fleißig", "gerne", "kaum", "vielleicht", "sicher", "ruhig"] },
+        { sentence: (a) => ["Die", "Kinder", "spielen", a, "im", "Park."], adverbs: ["gerne", "laut", "leise", "ruhig", "vorsichtig"] },
+        { sentence: (a) => [subj, "spricht", a, "mit", "der", "Lehrerin."], adverbs: ["leise", "deutlich", "ruhig", "laut", "höflich"].filter(x => ADVERBS.modal.includes(x)) },
+        { sentence: (a) => ["Die", "Katze", "schleicht", a, "durchs", "Zimmer."], adverbs: ["leise", "vorsichtig", "schnell"] }
+      ]);
+      const adv = pick(ctx.adverbs);
+      const words = ctx.sentence(adv);
+      const idx = words.indexOf(adv);
+      return { words, adverbIndex: idx, type: "modal", adverb: adv };
+    },
+    () => {
+      const subj = pick(NAMES);
+      const ctx = pick([
+        { sentence: (a) => ["Wir", "haben", a, "zugehört."], adverbs: ["gerne", "gut", "kaum", "fleißig"] },
+        { sentence: (a) => [subj, "isst", a, "den", "Kuchen."], adverbs: ["gerne", "schnell", "vorsichtig", "kaum"] },
+        { sentence: (a) => ["Das", "Kind", "schläft", a, "ein."], adverbs: ["schnell", "ruhig", "kaum", "schlecht"] },
+        { sentence: (a) => ["Die", "Schüler", "arbeiten", a, "im", "Unterricht."], adverbs: ["fleißig", "ruhig", "leise", "gut", "schlecht"] },
+        { sentence: (a) => [subj, "antwortet", a, "auf", "die", "Frage."], adverbs: ["deutlich", "kaum", "sicher", "gerne", "vorsichtig"] },
+        { sentence: (a) => ["Mein", "Freund", "schwimmt", a, "im", "See."], adverbs: ["gerne", "schnell", "vorsichtig", "gut", "kaum"] }
+      ]);
+      const adv = pick(ctx.adverbs);
+      const words = ctx.sentence(adv);
+      const idx = words.indexOf(adv);
+      return { words, adverbIndex: idx, type: "modal", adverb: adv };
+    },
+
+    // --- LOKAL ---
+    () => {
+      const subj = pick(NAMES);
+      const ctx = pick([
+        { sentence: (a) => [a, "stehen", "viele", "Bäume."], adverbs: ["dort", "hier", "draußen", "überall", "links", "rechts", "vorne", "hinten"] },
+        { sentence: (a) => [subj, "wartet", a, "auf", "den", "Bus."], adverbs: ["dort", "hier", "draußen", "vorne", "hinten", "links", "rechts"] },
+        { sentence: (a) => ["Die", "Vögel", "singen", a, "in", "den", "Bäumen."], adverbs: ["dort", "oben", "überall", "draußen"] },
+        { sentence: (a) => ["Wir", "treffen", "uns", a, "am", "Spielplatz."], adverbs: ["dort", "hier", "draußen"] },
+        { sentence: (a) => [a, "wohnt", "meine", "Tante."], adverbs: ["hier", "dort", "oben", "unten", "drinnen"] },
+        { sentence: (a) => [subj, "spielt", a, "mit", "dem", "Ball."], adverbs: ["draußen", "drinnen", "hier", "dort", "vorne", "hinten"] }
+      ]);
+      const adv = pick(ctx.adverbs);
+      const words = ctx.sentence(adv);
+      const idx = words.indexOf(adv);
+      return { words, adverbIndex: idx, type: "lokal", adverb: adv };
+    },
+    () => {
+      const subj = pick(NAMES);
+      const ctx = pick([
+        { sentence: (a) => ["Die", "Bücher", "stehen", a, "im", "Regal."], adverbs: ["dort", "oben", "unten", "vorne", "hinten", "links", "rechts"] },
+        { sentence: (a) => [subj, "sucht", "den", "Hund", a + "."], adverbs: ["überall", "draußen", "drinnen", "hier", "dort"] },
+        { sentence: (a) => ["Mein", "Heft", "liegt", a, "auf", "dem", "Tisch."], adverbs: ["dort", "hier", "oben", "vorne", "hinten"] },
+        { sentence: (a) => ["Die", "Kinder", "klettern", a, "auf", "den", "Baum."], adverbs: ["dort", "oben", "draußen", "hinten", "vorne"] },
+        { sentence: (a) => ["Ich", "habe", "meine", "Jacke", a, "vergessen."], adverbs: ["dort", "drinnen", "draußen", "irgendwo", "oben", "unten"] },
+        { sentence: (a) => ["Der", "Lehrer", "schreibt", a, "an", "die", "Tafel."], adverbs: ["vorne", "links", "rechts", "oben", "unten"] }
+      ]);
+      const adv = pick(ctx.adverbs);
+      const words = ctx.sentence(adv);
+      let idx = words.findIndex(w => w === adv || w === adv + ".");
+      return { words, adverbIndex: idx, type: "lokal", adverb: adv };
+    },
+
+    // --- KAUSAL ---
+    () => {
+      const adv = pick(ADVERBS.kausal);
+      const subj = pick(NAMES);
+      // Use neutral structures (no gendered pronouns in second clause)
+      const variations = [
+        ["Es", "regnet,", adv, "bleibe", "ich", "zu", "Hause."],
+        [subj, "ist", "krank,", adv, "nimmt", subj, "Medizin."],
+        ["Die", "Schule", "fällt", "aus,", adv, "schlafen", "wir", "länger."],
+        ["Das", "Wetter", "ist", "schön,", adv, "gehen", "wir", "schwimmen."],
+        ["Ich", "habe", "Hunger,", adv, "esse", "ich", "ein", "Brot."],
+        [subj, "hat", "geübt,", adv, "wird", subj, "besser."]
+      ];
+      const words = pick(variations);
+      const idx = words.indexOf(adv);
+      return { words, adverbIndex: idx, type: "kausal", adverb: adv };
+    },
+    () => {
+      const adv = pick(ADVERBS.kausal);
+      const subj = pick(NAMES);
+      const variations = [
+        ["Wir", "haben", "Ferien,", adv, "fahren", "wir", "ans", "Meer."],
+        [subj, "war", "müde,", adv, "ging", subj, "ins", "Bett."],
+        ["Es", "war", "kalt,", adv, "trug", "ich", "eine", "Mütze."],
+        ["Der", "Bus", "kam", "spät,", adv, "war", "ich", "verspätet."],
+        ["Mein", "Bruder", "übt", "viel,", adv, "wird", "er", "besser."],
+        ["Es", "schneit,", adv, "können", "wir", "Schlitten", "fahren."]
+      ];
+      const words = pick(variations);
+      const idx = words.indexOf(adv);
+      return { words, adverbIndex: idx, type: "kausal", adverb: adv };
+    }
+  ];
+
+  // ============= Generate randomized exercise set =============
+  const TOTAL_QUESTIONS = 10;
+  function generateExerciseSet() {
+    const set = [];
+    // Try to balance types: aim for ~2-3 per type
+    const byType = { temporal: [], modal: [], lokal: [], kausal: [] };
+    templates.forEach((t, i) => {
+      const sample = t();
+      byType[sample.type].push(i);
+    });
+    // Pick mix: 3 temporal, 3 modal, 2 lokal, 2 kausal
+    const targetMix = [
+      ...Array(3).fill('temporal'),
+      ...Array(3).fill('modal'),
+      ...Array(2).fill('lokal'),
+      ...Array(2).fill('kausal')
+    ];
+    shuffle(targetMix).forEach(type => {
+      const candidates = byType[type];
+      const tIdx = pick(candidates);
+      let attempt = templates[tIdx]();
+      // Sanity: make sure adverb was found
+      if (attempt.adverbIndex === -1) {
+        attempt = templates[tIdx]();
+      }
+      capitalize(attempt);
+      set.push(attempt);
+    });
+    return set;
+  }
+
+  let exercises = generateExerciseSet();
+
+  // ============= State =============
+  let currentIndex = 0;
+  let score = 0;
+  let correctCount = 0;
+  let stage = 'pick'; // 'pick' | 'classify' | 'done'
+  let pickedAdverb = false;
+
+  // ============= DOM =============
+  const container = document.getElementById('slideContainer');
+  const progressEl = document.getElementById('progress');
+  const scoreEl = document.getElementById('scoreVal');
+  const totalQEl = document.getElementById('totalQ');
+
+  const TYPE_LABELS = {
+    temporal: { label: "Temporal", icon: "⏰", q: "Wann?" },
+    modal:    { label: "Modal",    icon: "🎭", q: "Wie?" },
+    lokal:    { label: "Lokal",    icon: "📍", q: "Wo?" },
+    kausal:   { label: "Kausal",   icon: "💡", q: "Warum?" }
+  };
+
+  function buildSlides() {
+    container.querySelectorAll('.slide[data-slide^="ex-"]').forEach(s => s.remove());
+    if (totalQEl) totalQEl.textContent = exercises.length;
+
+    const resultSlide = container.querySelector('[data-slide="result"]');
+    exercises.forEach((ex, idx) => {
+      const slide = document.createElement('section');
+      slide.className = 'slide';
+      slide.dataset.slide = `ex-${idx}`;
+
+      let sentenceHTML = '';
+      ex.words.forEach((word, wi) => {
+        sentenceHTML += `<span class="word" data-pos="${wi}" data-ex="${idx}">${word}</span> `;
+      });
+
+      let typeBtnsHTML = '';
+      ['temporal', 'modal', 'lokal', 'kausal'].forEach(t => {
+        const info = TYPE_LABELS[t];
+        typeBtnsHTML += `
+          <button class="type-btn" data-type="${t}" data-ex="${idx}" disabled onclick="pickType(${idx}, '${t}')">
+            <span class="type-icon">${info.icon}</span>
+            ${info.label}
+            <span class="type-q">${info.q}</span>
+          </button>
+        `;
+      });
+
+      slide.innerHTML = `
+        <div class="question-meta">
+          <span class="tag">Satz ${idx + 1} / ${exercises.length}</span>
+          <span class="pill">🔍 Adverb finden</span>
+        </div>
+
+        <div class="step-indicator">
+          <div class="step-dot active" id="step1-${idx}">1</div>
+          <span>Adverb anklicken</span>
+          <div class="step-line"></div>
+          <div class="step-dot" id="step2-${idx}">2</div>
+          <span>Art bestimmen</span>
+        </div>
+
+        <h2>Finde das <em>Adverb</em>.</h2>
+        <p class="lead" id="prompt-${idx}">Schritt 1: Klicke im Satz auf das Wort, von dem du denkst, dass es ein Adverb ist.</p>
+
+        <div class="sentence-area" data-sentence="${idx}">${sentenceHTML}</div>
+
+        <div class="type-grid" id="types-${idx}">${typeBtnsHTML}</div>
+
+        <div class="feedback" id="feedback-${idx}"></div>
+
+        <div class="actions">
+          <div>
+            <button class="hint-btn" onclick="toggleHint(${idx})">💡 Tipp</button>
+            <div class="hint-text" id="hint-${idx}">
+              Adverbien beantworten Fragen wie <strong>Wann?</strong> (Temporal), <strong>Wie?</strong> (Modal), <strong>Wo?</strong> (Lokal) oder <strong>Warum?</strong> (Kausal). In diesem Satz gibt es <strong>ein</strong> Adverb.
+            </div>
+          </div>
+          <button class="btn" id="next-${idx}" onclick="goNext(${idx})" style="display:none;">
+            ${idx < exercises.length - 1 ? 'Nächster Satz →' : 'Ergebnis ansehen 🏆'}
+          </button>
+        </div>
+
+        <div class="legend">Tipp: Erst auf das Adverb klicken, dann den Typ wählen.</div>
+      `;
+      container.insertBefore(slide, resultSlide);
+    });
+
+    // Word click handlers
+    document.querySelectorAll('.word').forEach(w => {
+      w.addEventListener('click', () => {
+        if (w.classList.contains('locked')) return;
+        const idx = parseInt(w.dataset.ex);
+        const pos = parseInt(w.dataset.pos);
+        if (currentIndex !== idx || stage !== 'pick') return;
+        handleWordPick(idx, pos, w);
+      });
+    });
+  }
+
+  buildSlides();
+
+  // ============= Logic =============
+  function showSlide(name) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector(`[data-slide="${name}"]`);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function startExercise() {
+    currentIndex = 0;
+    stage = 'pick';
+    pickedAdverb = false;
+    showSlide(`ex-${currentIndex}`);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const pct = (currentIndex / exercises.length) * 100;
+    progressEl.style.width = `${pct}%`;
+    scoreEl.textContent = score;
+  }
+
+  function toggleHint(idx) {
+    document.getElementById(`hint-${idx}`).classList.toggle('show');
+  }
+
+  // Step 1: word click
+  function handleWordPick(idx, pos, wordEl) {
+    const ex = exercises[idx];
+    const isCorrect = (pos === ex.adverbIndex);
+    const feedback = document.getElementById(`feedback-${idx}`);
+
+    if (isCorrect) {
+      // Correct word — proceed to classify
+      pickedAdverb = true;
+      stage = 'classify';
+      score += 5;
+      scoreEl.textContent = score;
+
+      // Mark word
+      wordEl.classList.add('selected');
+      // Lock all other words
+      document.querySelectorAll(`[data-ex="${idx}"].word`).forEach(w => {
+        w.classList.add('locked');
+      });
+
+      // Update steps
+      document.getElementById(`step1-${idx}`).classList.remove('active');
+      document.getElementById(`step1-${idx}`).classList.add('done');
+      document.getElementById(`step1-${idx}`).innerHTML = '✓';
+      document.getElementById(`step2-${idx}`).classList.add('active');
+
+      // Enable type buttons
+      document.querySelectorAll(`#types-${idx} .type-btn`).forEach(b => b.disabled = false);
+
+      // Update prompt
+      document.getElementById(`prompt-${idx}`).innerHTML = `Super! <strong>"${ex.adverb}"</strong> ist tatsächlich ein Adverb. Schritt 2: Welche Art ist es?`;
+
+      feedback.className = 'feedback success show';
+      feedback.innerHTML = `<strong>✓ Richtiges Wort!</strong>+5 Punkte. Jetzt entscheide: Welche Frage beantwortet "${ex.adverb}"?`;
+    } else {
+      // Wrong word
+      wordEl.classList.add('wrong-pick');
+      feedback.className = 'feedback error show';
+      const clickedWord = ex.words[pos].replace(/[.,!?]/g, '');
+      feedback.innerHTML = `<strong>Hm, das ist nicht das Adverb.</strong>"${clickedWord}" beantwortet keine Frage wie wann/wie/wo/warum. Klicke ein anderes Wort an!`;
+      // Allow retry — un-mark wrong-pick after a moment
+      setTimeout(() => {
+        wordEl.classList.remove('wrong-pick');
+      }, 900);
+    }
+  }
+
+  // Step 2: type choice
+  function pickType(idx, type) {
+    if (stage !== 'classify' || currentIndex !== idx) return;
+    const ex = exercises[idx];
+    const btn = document.querySelector(`#types-${idx} .type-btn[data-type="${type}"]`);
+    const correctBtn = document.querySelector(`#types-${idx} .type-btn[data-type="${ex.type}"]`);
+    const feedback = document.getElementById(`feedback-${idx}`);
+
+    // Disable all buttons
+    document.querySelectorAll(`#types-${idx} .type-btn`).forEach(b => b.disabled = true);
+    stage = 'done';
+
+    // Mark step 2 done
+    document.getElementById(`step2-${idx}`).classList.remove('active');
+    document.getElementById(`step2-${idx}`).classList.add('done');
+    document.getElementById(`step2-${idx}`).innerHTML = '✓';
+
+    // Highlight adverb in the sentence with type color
+    const adverbWord = document.querySelector(`.word[data-ex="${idx}"][data-pos="${ex.adverbIndex}"]`);
+    if (adverbWord) {
+      adverbWord.classList.remove('selected');
+      adverbWord.classList.add(`type-${ex.type === 'temporal' ? 'temp' : ex.type}`);
+    }
+
+    if (type === ex.type) {
+      score += 10;
+      correctCount++;
+      btn.classList.add('correct-answer');
+      feedback.className = 'feedback success show';
+      feedback.innerHTML = `<strong>🎉 Perfekt richtig!</strong>"${ex.adverb}" ist ein <strong>${TYPE_LABELS[ex.type].label}adverb</strong> – es beantwortet die Frage <em>${TYPE_LABELS[ex.type].q}</em> +10 Punkte!`;
+      launchConfetti();
+    } else {
+      btn.classList.add('wrong-answer');
+      correctBtn.classList.add('correct-answer');
+      feedback.className = 'feedback error show';
+      feedback.innerHTML = `<strong>Fast! Schau dir die richtige Antwort an.</strong>"${ex.adverb}" ist ein <strong>${TYPE_LABELS[ex.type].label}adverb</strong>. Es beantwortet die Frage <em>${TYPE_LABELS[ex.type].q}</em> Du hattest auf <em>${TYPE_LABELS[type].label}</em> getippt.`;
+    }
+    scoreEl.textContent = score;
+
+    // Show next button
+    document.getElementById(`next-${idx}`).style.display = 'inline-flex';
+  }
+
+  function goNext(idx) {
+    if (idx < exercises.length - 1) {
+      currentIndex = idx + 1;
+      stage = 'pick';
+      pickedAdverb = false;
+      showSlide(`ex-${currentIndex}`);
+      updateProgress();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const total = exercises.length;
+    const pct = Math.round((correctCount / total) * 100);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalCorrect').textContent = `${correctCount}/${total}`;
+    document.getElementById('finalPercent').textContent = `${pct}%`;
+
+    let badgeText = '';
+    if (pct === 100) badgeText = '🏆 Adverb-Meister';
+    else if (pct >= 75) badgeText = '🌟 Adverb-Profi';
+    else if (pct >= 50) badgeText = '👍 Auf gutem Weg';
+    else badgeText = '💪 Weiter üben!';
+    document.getElementById('finalBadge').textContent = badgeText;
+
+    progressEl.style.width = '100%';
+    showSlide('result');
+
+    if (pct >= 75) launchConfetti(60);
+  }
+
+  function restart() {
+    currentIndex = 0;
+    score = 0;
+    correctCount = 0;
+    stage = 'pick';
+    pickedAdverb = false;
+    scoreEl.textContent = 0;
+    progressEl.style.width = '0%';
+
+    exercises = generateExerciseSet();
+    buildSlides();
+
+    showSlide('welcome');
+  }
+
+  // ============= Confetti =============
+  function launchConfetti(count = 30) {
+    const colors = ['#f582ae', '#8bd3dd', '#ffd166', '#c8b6ff', '#001858'];
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }, i * 30);
+    }
+  }
+</script>
+</body>
+</html>
