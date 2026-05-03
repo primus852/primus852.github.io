@@ -1,0 +1,786 @@
+<!--
+  STARTER-TEMPLATE für neue Deutsch-Übungen Klasse 6
+  ---------------------------------------------------
+  So benutzt du diese Datei:
+  1. Kopiere sie und nenne sie z.B. `wortarten.html`.
+  2. Ersetze TITEL, LOGO-Buchstabe, Akzentfarbe (--accent) und das Welcome-Intro.
+  3. Schreibe deine Templates in den `templates`-Array.
+  4. Passe `buildSlides()` und `checkAnswer()` an, falls deine Klick-Mechanik
+     anders ist als das einfache "Wort markieren + prüfen"-Muster.
+  5. Teste mit dem Smoke-Test-Skript aus CLAUDE.md.
+
+  Das CSS-System ist verbindlich (siehe CLAUDE.md). Eigene Übungs-spezifische
+  Klassen kommen ins eigene <style>-Block am Ende — niemals die Tokens
+  überschreiben.
+-->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TITEL · Übung · Klasse 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     GEMEINSAME TOKENS — NICHT ÄNDERN
+     Wenn eine Übung eine eigene Themenfarbe braucht, füge eine
+     ZUSÄTZLICHE Variable hinzu (z.B. --quote-color), aber lasse
+     die Standardtokens in Ruhe.
+     ============================================================ */
+  :root {
+    --bg: #fef6e4;
+    --bg-2: #f3d2c1;
+    --ink: #001858;
+    --ink-soft: #172c66;
+    --paper: #fffaf0;
+    --accent: #f582ae;        /* primärer Akzent — DARF pro Übung anders sein */
+    --accent-2: #8bd3dd;
+    --good: #2e7d4f;
+    --good-bg: #d4f1d6;
+    --bad: #b3261e;
+    --bad-bg: #fbd6d3;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-soft: 4px 4px 0 var(--ink);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(245, 130, 174, 0.18) 0, transparent 35%),
+      radial-gradient(circle at 85% 80%, rgba(139, 211, 221, 0.22) 0, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(243, 210, 193, 0.15) 0, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .floater {
+    position: fixed;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    color: var(--ink);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    animation: float 14s ease-in-out infinite;
+  }
+  .floater:nth-child(1) { top: 8%; left: 5%; font-size: 180px; animation-delay: 0s; }
+  .floater:nth-child(2) { top: 65%; left: 88%; font-size: 220px; animation-delay: -3s; }
+  .floater:nth-child(3) { top: 75%; left: 8%; font-size: 140px; animation-delay: -6s; }
+  .floater:nth-child(4) { top: 15%; left: 80%; font-size: 160px; animation-delay: -9s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50% { transform: translateY(-30px) rotate(8deg); }
+  }
+
+  header {
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1;
+    box-shadow: var(--shadow-soft);
+    transform: rotate(-5deg);
+  }
+  .brand h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .brand .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .progress-wrap { display: flex; align-items: center; gap: 16px; }
+  .score {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .progress-bar {
+    width: 200px;
+    height: 14px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .slide {
+    width: 100%;
+    max-width: 920px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 40px;
+    position: relative;
+    display: none;
+    animation: slideIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .slide.active { display: block; }
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .slide h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    margin-bottom: 14px;
+  }
+  .slide h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .slide .lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  .question-meta { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .pill {
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .sentence-area {
+    background: var(--bg);
+    border: 3px dashed var(--ink);
+    border-radius: 18px;
+    padding: 28px;
+    margin: 20px 0 24px;
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    line-height: 2;
+    text-align: left;
+  }
+
+  /* HIER kommt deine übungs-spezifische Klasse für Klick-Elemente
+     (z.B. .gap, .word, .slot). Beispiel-Stub: */
+  .clickable {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.18s;
+    border: 2px solid transparent;
+  }
+  .clickable:hover {
+    background: var(--accent-2);
+    transform: translateY(-2px);
+  }
+  .clickable.selected {
+    background: var(--accent);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .clickable.correct {
+    background: var(--good-bg);
+    border-color: var(--good);
+    color: var(--good);
+  }
+  .clickable.wrong {
+    background: var(--bad-bg);
+    border-color: var(--bad);
+    color: var(--bad);
+    animation: shake 0.4s;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .feedback {
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: none;
+    font-size: 15px;
+    line-height: 1.5;
+    border: 2px solid;
+    animation: slideIn 0.4s ease;
+  }
+  .feedback.show { display: block; }
+  .feedback.success { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+  .feedback.error { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+  .feedback strong {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .hint-btn {
+    background: transparent;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .hint-btn:hover { background: var(--ink); color: var(--paper); }
+  .hint-text {
+    margin-top: 8px;
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .hint-text.show { display: block; }
+
+  .btn {
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    color: var(--ink);
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: var(--shadow-soft); }
+  .btn.secondary { background: var(--paper); }
+  .btn.success-btn { background: var(--good); color: var(--paper); }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--bg);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .badge-area { text-align: center; margin: 24px 0; }
+  .badge {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 14px 32px;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    box-shadow: var(--shadow-soft);
+    animation: badgePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes badgePop {
+    0% { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  .confetti-piece {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    top: -20px;
+    z-index: 100;
+    animation: confettiFall 3s linear forwards;
+    pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .welcome { text-align: center; }
+  .welcome h2 { font-size: 50px; margin-bottom: 8px; }
+  .welcome .lead { font-size: 18px; margin-bottom: 8px; }
+
+  .legend {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  @media (max-width: 720px) {
+    .slide { padding: 24px; }
+    .slide h2 { font-size: 28px; }
+    .sentence-area { font-size: 20px; padding: 22px 14px; }
+    .result-grid { grid-template-columns: 1fr; }
+    .progress-bar { width: 120px; }
+    header { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
+    .welcome h2 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Optional: thematische Floater (Hintergrund-Deko) -->
+<div class="floater">?</div>
+<div class="floater">!</div>
+<div class="floater">.</div>
+<div class="floater">,</div>
+
+<header>
+  <div class="brand">
+    <div class="logo">X</div> <!-- TODO: Buchstabe oder Symbol passend zur Übung -->
+    <div>
+      <h1>NAME-DER-ÜBUNG</h1>
+      <div class="sub">Klasse 6 · UNTERTITEL</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="score">
+      <span>⭐</span>
+      <span id="scoreVal">0</span> Punkte
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+  </div>
+</header>
+
+<main id="slideContainer">
+
+  <!-- ====== Welcome Slide ====== -->
+  <section class="slide active" data-slide="welcome">
+    <div class="welcome">
+      <span class="tag">Los geht's!</span>
+      <h2>Werde zum <em>NAME-PROFI</em>!</h2>
+      <p class="lead">Bearbeite <strong id="totalQ">10</strong> Aufgaben. Bei jedem Start gibt's neue Sätze!</p>
+
+      <!-- TODO: Hier kommen Erklärkarten zur Regel — siehe kommasetzung.html für ein 4er-Grid-Beispiel -->
+
+      <button class="btn" onclick="startExercise()">Übung starten →</button>
+    </div>
+  </section>
+
+  <!-- Übungs-Slides werden dynamisch in buildSlides() generiert -->
+
+  <!-- ====== Result Slide ====== -->
+  <section class="slide" data-slide="result">
+    <span class="tag">Fertig!</span>
+    <h2>Du hast es <em>geschafft!</em></h2>
+    <p class="lead">Hier ist dein Ergebnis. Möchtest du nochmal üben?</p>
+
+    <div class="badge-area">
+      <div class="badge" id="finalBadge">🌟 Profi</div>
+    </div>
+
+    <div class="result-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="finalScore">0</div>
+        <div class="stat-label">Punkte gesamt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalCorrect">0/10</div>
+        <div class="stat-label">Richtige Sätze</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalPercent">0%</div>
+        <div class="stat-label">Erfolgsquote</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="btn" onclick="restart()">🔁 Nochmal üben</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  /* ============================================================
+     1. DATEN-POOLS — pflege diese Listen statt Sätze fest zu schreiben
+     ============================================================ */
+  const NAMES = ["Lisa", "Max", "Anna", "Tim", "Mia", "Paul", "Emma", "Jonas",
+                 "Lena", "Felix", "Sophie", "Ben", "Hannah", "Leon", "Marie", "Noah"];
+  // TODO: weitere Pools je nach Übung (Verben, Orte, Adjektive, …)
+
+  /* ============================================================
+     2. HELPERS — diese drei Funktionen verwendet jede Übung
+     ============================================================ */
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const pickN = (arr, n) => {
+    const copy = [...arr]; const out = [];
+    for (let i = 0; i < n && copy.length; i++) {
+      out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+    }
+    return out;
+  };
+  const shuffle = arr => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // Erstes Wort eines Satzes großschreiben (falls Wort an Position 0 rotiert)
+  function capitalize(words) {
+    if (!words.length) return words;
+    words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+    return words;
+  }
+
+  /* ============================================================
+     3. TEMPLATES — eine Funktion pro Satzmuster
+     Jede gibt ein Übungsobjekt zurück: {words, solution, …}
+     ============================================================ */
+  const templates = [
+    () => {
+      const subj = pick(NAMES);
+      // TODO: Baue einen Satz aus deinen Pools.
+      // Beispiel-Stub:
+      const words = [subj, "geht", "in", "die", "Schule."];
+      return {
+        words,
+        targetIndex: 1,         // welcher Index ist die richtige Antwort
+        rule: "Beispielregel",  // wird im Pill angezeigt
+        explanation: "Erklärung der Regel, erscheint im Feedback nach dem Klick."
+      };
+    },
+    // TODO: weitere Templates …
+  ];
+
+  /* ============================================================
+     4. SET-GENERATOR — bestimmt Mix und Anzahl pro Durchlauf
+     ============================================================ */
+  const TOTAL_QUESTIONS = 10;
+  function generateExerciseSet() {
+    // Einfacher Mix: zufällige Auswahl aus Templates
+    // Für ausgewogene Mischung nach Regeltyp: targetMix-Pattern verwenden
+    // (siehe adverbien.html für Beispiel mit 3+3+2+2 Verteilung)
+    const set = [];
+    const shuffled = shuffle(templates);
+    for (let i = 0; i < TOTAL_QUESTIONS; i++) {
+      const t = shuffled[i % shuffled.length];
+      set.push(t());
+    }
+    return set;
+  }
+
+  let exercises = generateExerciseSet();
+
+  /* ============================================================
+     5. STATE
+     ============================================================ */
+  let currentIndex = 0;
+  let score = 0;
+  let correctCount = 0;
+  let attemptedThis = false;
+
+  /* ============================================================
+     6. DOM-BUILD — generiert alle Übungs-Slides aus exercises[]
+     WICHTIG: als Funktion, damit restart() sie neu aufrufen kann.
+     ============================================================ */
+  const container = document.getElementById('slideContainer');
+  const progressEl = document.getElementById('progress');
+  const scoreEl = document.getElementById('scoreVal');
+  const totalQEl = document.getElementById('totalQ');
+
+  function buildSlides() {
+    // Vorhandene Übungs-Slides entfernen (welcome + result behalten)
+    container.querySelectorAll('.slide[data-slide^="ex-"]').forEach(s => s.remove());
+    if (totalQEl) totalQEl.textContent = exercises.length;
+
+    const resultSlide = container.querySelector('[data-slide="result"]');
+
+    exercises.forEach((ex, idx) => {
+      const slide = document.createElement('section');
+      slide.className = 'slide';
+      slide.dataset.slide = `ex-${idx}`;
+
+      // TODO: Render des Satzes mit klickbaren Elementen.
+      // Beispiel: jedes Wort als .clickable rendern
+      let sentenceHTML = '';
+      ex.words.forEach((word, wi) => {
+        sentenceHTML += `<span class="clickable" data-pos="${wi}" data-ex="${idx}">${word}</span> `;
+      });
+
+      slide.innerHTML = `
+        <div class="question-meta">
+          <span class="tag">Aufgabe ${idx + 1} / ${exercises.length}</span>
+          <span class="pill">📖 ${ex.rule}</span>
+        </div>
+        <h2>Aufgabenstellung als <em>Frage</em>.</h2>
+        <p class="lead">Anweisung an die Schüler hier.</p>
+
+        <div class="sentence-area">${sentenceHTML}</div>
+
+        <div class="feedback" id="feedback-${idx}"></div>
+
+        <div class="actions">
+          <div>
+            <button class="hint-btn" onclick="toggleHint(${idx})">💡 Tipp</button>
+            <div class="hint-text" id="hint-${idx}">${ex.explanation}</div>
+          </div>
+          <button class="btn" id="check-${idx}" onclick="checkAnswer(${idx})">Prüfen ✓</button>
+        </div>
+
+        <div class="legend">Klicke auf das richtige Wort.</div>
+      `;
+      container.insertBefore(slide, resultSlide);
+    });
+
+    // Click-Handler binden
+    document.querySelectorAll('.clickable').forEach(el => {
+      el.addEventListener('click', () => {
+        if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+        // TODO: deine Klick-Logik hier (Auswahl markieren, rotieren, …)
+        document.querySelectorAll(`.clickable[data-ex="${el.dataset.ex}"]`).forEach(e => e.classList.remove('selected'));
+        el.classList.add('selected');
+      });
+    });
+  }
+
+  buildSlides();
+
+  /* ============================================================
+     7. KERN-LOGIK
+     ============================================================ */
+  function showSlide(name) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector(`[data-slide="${name}"]`);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function startExercise() {
+    currentIndex = 0;
+    attemptedThis = false;
+    showSlide(`ex-${currentIndex}`);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const pct = (currentIndex / exercises.length) * 100;
+    progressEl.style.width = `${pct}%`;
+    scoreEl.textContent = score;
+  }
+
+  function toggleHint(idx) {
+    document.getElementById(`hint-${idx}`).classList.toggle('show');
+  }
+
+  function checkAnswer(idx) {
+    if (attemptedThis) {
+      goNext(idx);
+      return;
+    }
+    attemptedThis = true;
+
+    const ex = exercises[idx];
+    const selected = document.querySelector(`.clickable.selected[data-ex="${idx}"]`);
+    const feedback = document.getElementById(`feedback-${idx}`);
+
+    // TODO: ersetze diese Beispiel-Prüfung durch deine eigene Logik
+    const isCorrect = selected && parseInt(selected.dataset.pos) === ex.targetIndex;
+
+    if (isCorrect) {
+      score += 10;
+      correctCount++;
+      selected.classList.remove('selected');
+      selected.classList.add('correct');
+      feedback.className = 'feedback success show';
+      feedback.innerHTML = `<strong>🎉 Richtig!</strong>${ex.explanation}`;
+      launchConfetti();
+    } else {
+      if (selected) {
+        selected.classList.remove('selected');
+        selected.classList.add('wrong');
+      }
+      // Richtige Lösung markieren
+      const correctEl = document.querySelector(`.clickable[data-ex="${idx}"][data-pos="${ex.targetIndex}"]`);
+      if (correctEl) correctEl.classList.add('correct');
+      feedback.className = 'feedback error show';
+      feedback.innerHTML = `<strong>Fast!</strong>${ex.explanation}`;
+    }
+
+    scoreEl.textContent = score;
+    updateProgress();
+
+    const btn = document.getElementById(`check-${idx}`);
+    btn.classList.add('success-btn');
+    btn.innerHTML = idx < exercises.length - 1 ? 'Nächste Aufgabe →' : 'Ergebnis ansehen 🏆';
+  }
+
+  function goNext(idx) {
+    attemptedThis = false;
+    if (idx < exercises.length - 1) {
+      currentIndex = idx + 1;
+      showSlide(`ex-${currentIndex}`);
+      updateProgress();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const total = exercises.length;
+    const pct = Math.round((correctCount / total) * 100);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalCorrect').textContent = `${correctCount}/${total}`;
+    document.getElementById('finalPercent').textContent = `${pct}%`;
+
+    let badgeText = '';
+    if (pct === 100) badgeText = '🏆 Meister';
+    else if (pct >= 75) badgeText = '🌟 Profi';
+    else if (pct >= 50) badgeText = '👍 Auf gutem Weg';
+    else badgeText = '💪 Weiter üben!';
+    document.getElementById('finalBadge').textContent = badgeText;
+
+    progressEl.style.width = '100%';
+    showSlide('result');
+    if (pct >= 75) launchConfetti(60);
+  }
+
+  function restart() {
+    currentIndex = 0;
+    score = 0;
+    correctCount = 0;
+    attemptedThis = false;
+    scoreEl.textContent = 0;
+    progressEl.style.width = '0%';
+
+    exercises = generateExerciseSet();
+    buildSlides();
+
+    showSlide('welcome');
+  }
+
+  /* ============================================================
+     8. CONFETTI
+     ============================================================ */
+  function launchConfetti(count = 30) {
+    const colors = ['#f582ae', '#8bd3dd', '#fef6e4', '#001858', '#f3d2c1'];
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }, i * 30);
+    }
+  }
+</script>
+</body>
+</html>

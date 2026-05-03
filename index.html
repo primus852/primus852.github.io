@@ -1,27 +1,331 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mia – Übungen</title>
-  <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 80px auto; padding: 0 20px; text-align: center; }
-    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
-    p { color: #666; margin-bottom: 2rem; }
-    ul { list-style: none; padding: 0; }
-    li { margin: 16px 0; }
-    a { display: inline-block; padding: 12px 28px; background: #4a90e2; color: #fff;
-        border-radius: 8px; text-decoration: none; font-size: 1.1rem; }
-    a:hover { background: #357abd; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mia – Deutsch-Übungen · Klasse 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef6e4;
+    --bg-2: #f3d2c1;
+    --ink: #001858;
+    --ink-soft: #172c66;
+    --paper: #fffaf0;
+    --accent: #f582ae;
+    --accent-2: #8bd3dd;
+    --good: #2e7d4f;
+    --good-bg: #d4f1d6;
+    --bad: #b3261e;
+    --bad-bg: #fbd6d3;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-soft: 4px 4px 0 var(--ink);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { min-height: 100%; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(245, 130, 174, 0.18) 0, transparent 35%),
+      radial-gradient(circle at 85% 80%, rgba(139, 211, 221, 0.22) 0, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(243, 210, 193, 0.15) 0, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .floater {
+    position: fixed;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    color: var(--ink);
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    animation: float 14s ease-in-out infinite;
+  }
+  .floater:nth-child(1) { top: 8%;  left: 5%;  font-size: 90px;  animation-delay: 0s; }
+  .floater:nth-child(2) { top: 70%; left: 80%; font-size: 110px; animation-delay: -3s; }
+  .floater:nth-child(3) { top: 75%; left: 10%; font-size: 80px;  animation-delay: -6s; }
+  .floater:nth-child(4) { top: 15%; left: 75%; font-size: 100px; animation-delay: -9s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0)     rotate(-6deg); }
+    50%       { transform: translateY(-25px) rotate( 6deg); }
+  }
+
+  header {
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 1;
+    box-shadow: var(--shadow-soft);
+    transform: rotate(-5deg);
+  }
+
+  .brand h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .brand .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 48px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .content {
+    width: 100%;
+    max-width: 820px;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 6vw, 54px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    margin-bottom: 12px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .hero-lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+    line-height: 1.5;
+    max-width: 520px;
+  }
+
+  .exercise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .exercise-card {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 28px 24px 24px;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: slideIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .exercise-card:nth-child(1) { animation-delay: 0.05s; }
+  .exercise-card:nth-child(2) { animation-delay: 0.12s; }
+  .exercise-card:nth-child(3) { animation-delay: 0.19s; }
+
+  @keyframes slideIn {
+    0%   { opacity: 0; transform: translateY(32px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0)    scale(1);    }
+  }
+
+  .exercise-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0 var(--ink);
+  }
+
+  .card-icon {
+    font-size: 36px;
+    line-height: 1;
+  }
+
+  .card-chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    width: fit-content;
+  }
+
+  .chip-adverbien  { background: #c8b6ff; color: #2e1a73; }
+  .chip-komma      { background: #ffd166; color: #5e4200; }
+  .chip-redezeichen{ background: var(--accent); color: #5a0e35; }
+
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .card-arrow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-top: 6px;
+  }
+
+  .card-arrow svg {
+    transition: transform 0.2s;
+  }
+
+  .exercise-card:hover .card-arrow svg {
+    transform: translateX(4px);
+  }
+</style>
 </head>
 <body>
-  <h1>Mia – Übungen</h1>
-  <p>Wähle eine Übung:</p>
-  <ul>
-    <li><a href="Mia-Adverbien.html">Adverbien</a></li>
-    <li><a href="Mia-Kommasetzung.html">Kommasetzung</a></li>
-    <li><a href="Mia-Redezeichen.html">Redezeichen</a></li>
-  </ul>
+
+<div class="floater">Wann?</div>
+<div class="floater">„…"</div>
+<div class="floater">Wie?</div>
+<div class="floater">Wo?</div>
+
+<header>
+  <div class="brand">
+    <div class="logo">M</div>
+    <div>
+      <h1>Mia – Übungen</h1>
+      <div class="sub">Deutsch · Klasse 6</div>
+    </div>
+  </div>
+  <div class="header-badge">3 Übungen</div>
+</header>
+
+<main>
+  <div class="content">
+    <div class="tag">Deutsch · Klasse 6</div>
+    <h2 class="hero-title">Wähle deine <em>Übung</em></h2>
+    <p class="hero-lead">Klicke auf eine Übung, um zu starten. Jeder Durchgang verwendet andere Sätze – du kannst so oft üben, wie du willst.</p>
+
+    <div class="exercise-grid">
+
+      <a href="Mia-Adverbien.html" class="exercise-card">
+        <div class="card-icon">🔍</div>
+        <div class="card-chip chip-adverbien">Wortarten</div>
+        <div class="card-title">Adverbien</div>
+        <p class="card-desc">Finde das Adverb im Satz und bestimme, ob es temporal, modal, lokal oder kausal ist.</p>
+        <div class="card-arrow">
+          Übung starten
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="Mia-Kommasetzung.html" class="exercise-card">
+        <div class="card-icon">✏️</div>
+        <div class="card-chip chip-komma">Zeichensetzung</div>
+        <div class="card-title">Kommasetzung</div>
+        <p class="card-desc">Klicke in den Satz, um das Komma an die richtige Stelle zu setzen.</p>
+        <div class="card-arrow">
+          Übung starten
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="Mia-Redezeichen.html" class="exercise-card">
+        <div class="card-icon">💬</div>
+        <div class="card-chip chip-redezeichen">Wörtl. Rede</div>
+        <div class="card-title">Redezeichen</div>
+        <p class="card-desc">Setze die Satzzeichen der wörtlichen Rede durch Klick-Rotation richtig ein.</p>
+        <div class="card-arrow">
+          Übung starten
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</main>
+
 </body>
 </html>
