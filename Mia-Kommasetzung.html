@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Komma-Profi · Übung zur Kommasetzung · Klasse 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef6e4;
+    --bg-2: #f3d2c1;
+    --ink: #001858;
+    --ink-soft: #172c66;
+    --paper: #fffaf0;
+    --accent: #f582ae;
+    --accent-2: #8bd3dd;
+    --good: #2e7d4f;
+    --good-bg: #d4f1d6;
+    --bad: #b3261e;
+    --bad-bg: #fbd6d3;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-soft: 4px 4px 0 var(--ink);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    min-height: 100%;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(245, 130, 174, 0.18) 0, transparent 35%),
+      radial-gradient(circle at 85% 80%, rgba(139, 211, 221, 0.22) 0, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(243, 210, 193, 0.15) 0, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* Decorative floating commas */
+  .floater {
+    position: fixed;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    color: var(--ink);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    animation: float 14s ease-in-out infinite;
+  }
+  .floater:nth-child(1) { top: 8%; left: 5%; font-size: 180px; animation-delay: 0s; }
+  .floater:nth-child(2) { top: 65%; left: 88%; font-size: 220px; animation-delay: -3s; }
+  .floater:nth-child(3) { top: 75%; left: 8%; font-size: 140px; animation-delay: -6s; }
+  .floater:nth-child(4) { top: 15%; left: 80%; font-size: 160px; animation-delay: -9s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50% { transform: translateY(-30px) rotate(8deg); }
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 1;
+    box-shadow: var(--shadow-soft);
+    transform: rotate(-5deg);
+  }
+
+  .brand h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .brand .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .score {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .score-icon { font-size: 18px; }
+
+  .progress-bar {
+    width: 200px;
+    height: 14px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* ---------- Main slide area ---------- */
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .slide {
+    width: 100%;
+    max-width: 920px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 40px;
+    position: relative;
+    display: none;
+    animation: slideIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .slide.active { display: block; }
+
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Slide tag */
+  .tag {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .slide h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    margin-bottom: 14px;
+  }
+
+  .slide h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .slide .lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Intro slide ---------- */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 24px;
+    margin-bottom: 28px;
+  }
+
+  .rule-card {
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 18px;
+    background: var(--bg);
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .rule-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .rule-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .rule-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 6px 0 6px;
+  }
+
+  .rule-card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .rule-card .ex {
+    margin-top: 8px;
+    font-style: italic;
+    font-size: 13px;
+    background: var(--paper);
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px dashed var(--ink);
+  }
+
+  /* ---------- Exercise slide ---------- */
+  .question-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .sentence-area {
+    background: var(--bg);
+    border: 3px dashed var(--ink);
+    border-radius: 18px;
+    padding: 28px 28px;
+    margin: 20px 0 24px;
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    line-height: 2;
+    text-align: left;
+    min-height: 120px;
+    word-spacing: 0.05em;
+  }
+
+  .word {
+    display: inline;
+    padding: 0;
+  }
+
+  .gap {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin: 0 1px;
+    border: 2px dashed var(--ink-soft);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.15s;
+    vertical-align: -4px;
+    background: transparent;
+    padding: 0;
+    position: relative;
+    font: inherit;
+    color: transparent;
+    line-height: 1;
+  }
+
+  .gap:hover {
+    background: var(--accent-2);
+    transform: scale(1.2);
+    border-style: solid;
+    border-color: var(--ink);
+  }
+
+  /* When a comma is "placed" the gap collapses into an inline comma look */
+  .gap.placed {
+    width: auto;
+    height: auto;
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 32px;
+    vertical-align: baseline;
+    margin: 0 1px 0 -3px;
+    transform: none;
+    animation: pop 0.3s ease;
+    line-height: 1;
+  }
+
+  .gap.placed::before {
+    content: ',';
+  }
+
+  .gap.placed:hover {
+    background: var(--bad-bg);
+    color: var(--bad);
+    border-radius: 6px;
+    transform: scale(1.1);
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.4) translateY(4px); opacity: 0; }
+    60% { transform: scale(1.4) translateY(0); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  /* Result states: keep them visible as commas with color coding */
+  .gap.correct {
+    width: auto;
+    height: auto;
+    border: none;
+    background: var(--good-bg);
+    color: var(--good);
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 32px;
+    vertical-align: baseline;
+    margin: 0 2px;
+    padding: 0 4px;
+    border-radius: 6px;
+    cursor: default;
+    line-height: 1;
+  }
+  .gap.correct::before { content: ','; }
+
+  .gap.wrong {
+    width: auto;
+    height: auto;
+    border: none;
+    background: var(--bad-bg);
+    color: var(--bad);
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 32px;
+    vertical-align: baseline;
+    margin: 0 2px;
+    padding: 0 4px;
+    border-radius: 6px;
+    cursor: default;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    animation: shake 0.4s;
+    line-height: 1;
+  }
+  .gap.wrong::before { content: ','; }
+
+  .gap.missed {
+    background: var(--bad-bg);
+    border: 2px solid var(--bad);
+    border-style: solid;
+    color: var(--bad);
+    cursor: default;
+    animation: pulse-miss 0.6s;
+  }
+  .gap.missed::before { content: ''; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  @keyframes pulse-miss {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+  }
+
+  /* ---------- Feedback box ---------- */
+  .feedback {
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: none;
+    font-size: 15px;
+    line-height: 1.5;
+    border: 2px solid;
+    animation: slideIn 0.4s ease;
+  }
+
+  .feedback.show { display: block; }
+
+  .feedback.success {
+    background: var(--good-bg);
+    border-color: var(--good);
+    color: var(--good);
+  }
+
+  .feedback.error {
+    background: var(--bad-bg);
+    border-color: var(--bad);
+    color: var(--bad);
+  }
+
+  .feedback strong {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ---------- Action row ---------- */
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .hint-btn {
+    background: transparent;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .hint-btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .hint-text {
+    margin-top: 8px;
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+
+  .hint-text.show { display: block; }
+
+  .btn {
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    color: var(--ink);
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn.secondary {
+    background: var(--paper);
+  }
+
+  .btn.success-btn {
+    background: var(--good);
+    color: var(--paper);
+  }
+
+  /* ---------- Result slide ---------- */
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .stat-card {
+    background: var(--bg);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  .badge-area {
+    text-align: center;
+    margin: 24px 0;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 14px 32px;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    box-shadow: var(--shadow-soft);
+    animation: badgePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes badgePop {
+    0% { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  /* Confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    top: -20px;
+    z-index: 100;
+    animation: confettiFall 3s linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Welcome */
+  .welcome {
+    text-align: center;
+  }
+
+  .welcome h2 {
+    font-size: 56px;
+    margin-bottom: 8px;
+  }
+
+  .welcome .lead {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  /* Footer / instructions */
+  .legend {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    .slide { padding: 24px; }
+    .slide h2 { font-size: 28px; }
+    .sentence-area { font-size: 20px; padding: 22px 14px; }
+    .intro-grid, .result-grid { grid-template-columns: 1fr; }
+    .progress-bar { width: 120px; }
+    header { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
+    .welcome h2 { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Decorative floaters -->
+<div class="floater">,</div>
+<div class="floater">,</div>
+<div class="floater">,</div>
+<div class="floater">,</div>
+
+<header>
+  <div class="brand">
+    <div class="logo">,</div>
+    <div>
+      <h1>Komma-Profi</h1>
+      <div class="sub">Klasse 6 · Übung Kommasetzung</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="score">
+      <span class="score-icon">⭐</span>
+      <span id="scoreVal">0</span> Punkte
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+  </div>
+</header>
+
+<main id="slideContainer">
+
+  <!-- ====== Welcome Slide ====== -->
+  <section class="slide active" data-slide="welcome">
+    <div class="welcome">
+      <span class="tag">Los geht's!</span>
+      <h2>Werde zum <em>Komma-Profi</em>!</h2>
+      <p class="lead">Setze in <strong id="totalQ">10</strong> Sätzen die Kommas an die richtige Stelle. Klicke einfach auf die kleinen Kreise zwischen den Wörtern, wo du ein Komma setzen möchtest. <em>Bei jedem Start gibt's neue Sätze!</em></p>
+
+      <div class="intro-grid">
+        <div class="rule-card">
+          <div class="rule-num">01</div>
+          <h3>Aufzählungen</h3>
+          <p>Zwischen aufgezählten Wörtern und Wortgruppen steht ein Komma.</p>
+          <div class="ex">Ich mag Pizza, Pasta und Pommes.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-num">02</div>
+          <h3>Nebensätze</h3>
+          <p>Nebensätze werden vom Hauptsatz durch Komma getrennt (z. B. mit <em>weil, dass, wenn, obwohl</em>).</p>
+          <div class="ex">Ich freue mich, weil Ferien sind.</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-num">03</div>
+          <h3>Anrede & Ausruf</h3>
+          <p>Nach Anreden und Ausrufen steht ein Komma.</p>
+          <div class="ex">Hallo, Anna! Oh, das ist toll!</div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-num">04</div>
+          <h3>Relativsätze</h3>
+          <p>Eingeschobene Sätze mit <em>der, die, das, welche</em> stehen zwischen Kommas.</p>
+          <div class="ex">Der Hund, der bellt, ist klein.</div>
+        </div>
+      </div>
+
+      <button class="btn" onclick="startExercise()">Übung starten →</button>
+    </div>
+  </section>
+
+  <!-- ====== Exercise slides will be generated ====== -->
+
+  <!-- ====== Result Slide ====== -->
+  <section class="slide" data-slide="result">
+    <span class="tag">Fertig!</span>
+    <h2>Du hast es <em>geschafft!</em></h2>
+    <p class="lead">Hier ist dein Ergebnis. Möchtest du die Übung wiederholen?</p>
+
+    <div class="badge-area">
+      <div class="badge" id="finalBadge">🌟 Komma-Profi</div>
+    </div>
+
+    <div class="result-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="finalScore">0</div>
+        <div class="stat-label">Punkte gesamt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalCorrect">0/8</div>
+        <div class="stat-label">Richtige Sätze</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalPercent">0%</div>
+        <div class="stat-label">Erfolgsquote</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="btn" onclick="restart()">🔁 Nochmal üben</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ============= Exercise Pool =============
+  // Each exercise is generated from a template. `subjects`, `objects`, etc. arrays
+  // create natural variations so students don't memorize specific sentences.
+  // commas: 0-indexed positions where a comma must follow that word
+
+  // ---- Word pools for variation ----
+  const NAMES = ["Lisa", "Max", "Anna", "Tim", "Mia", "Paul", "Emma", "Jonas", "Lena", "Felix", "Sophie", "Ben", "Hannah", "Leon", "Marie", "Noah"];
+  const FAMILY = ["Bruder", "Schwester", "Vater", "Onkel", "Cousin", "Freund", "Nachbar", "Lehrer", "Großvater", "Trainer"];
+  const FAMILY_FEM = ["Schwester", "Mutter", "Tante", "Cousine", "Freundin", "Nachbarin", "Lehrerin", "Großmutter", "Trainerin"];
+  const ANIMALS = ["Hund", "Kater", "Hamster", "Wellensittich", "Hase", "Goldfisch", "Papagei"];
+  const PLACES = ["Garten", "Park", "Wald", "Hof", "Spielplatz", "Schulhof", "Keller", "Zimmer"];
+  const FRUITS = ["Erdbeeren", "Kirschen", "Äpfel", "Bananen", "Pflaumen", "Trauben", "Birnen", "Melonen", "Aprikosen", "Beeren"];
+  const SPORTS = ["Fußball", "Basketball", "Tennis", "Handball", "Schach", "Volleyball", "Federball", "Hockey"];
+  const HOBBIES = ["Lesen", "Malen", "Singen", "Tanzen", "Schwimmen", "Reiten", "Klettern", "Kochen", "Basteln"];
+  const SUBJECTS_SCHOOL = ["Mathe", "Deutsch", "Englisch", "Biologie", "Geschichte", "Kunst", "Musik", "Sport"];
+  const SEASONS_TIME = ["Im Sommer", "Im Winter", "Im Frühling", "Im Herbst", "Am Morgen", "Am Abend", "Am Wochenende", "In den Ferien", "Nach der Schule", "Vor dem Essen"];
+  const ADJECTIVES = ["wunderschön", "spannend", "lustig", "interessant", "langweilig", "anstrengend", "großartig", "fantastisch"];
+  const FEELINGS = ["freue mich", "ärgere mich", "wundere mich", "bin traurig", "bin glücklich", "lache", "staune"];
+  const REASONS = ["Ferien sind", "die Sonne scheint", "es schneit", "ich Geburtstag habe", "wir gewonnen haben", "mein Freund kommt", "die Schule ausfällt"];
+  const COMPLAINTS = ["es regnet", "es so kalt ist", "ich müde bin", "wir verloren haben", "die Schule beginnt", "es spät ist"];
+
+  // Helpers
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const pickN = (arr, n) => {
+    const copy = [...arr];
+    const out = [];
+    for (let i = 0; i < n && copy.length; i++) {
+      out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+    }
+    return out;
+  };
+  const shuffle = arr => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // Build a sentence from words and a list of comma-positions.
+  // Returns an exercise object {words, commas, rule, explanation}.
+  function buildExercise(wordTokens, commaPositions, rule, explanation) {
+    return {
+      words: wordTokens,
+      commas: commaPositions,
+      rule,
+      explanation
+    };
+  }
+
+  // ============= Exercise Templates =============
+  // Each template is a function that returns a fresh exercise with random fillers.
+  const templates = [
+
+    // ---- AUFZÄHLUNG: 3 items joined by "und" ----
+    () => {
+      const [a, b, c] = pickN(FRUITS, 3);
+      const time = pick(SEASONS_TIME);
+      const verbs = ["esse ich gerne", "kaufe ich oft", "mag ich besonders"];
+      const verb = pick(verbs);
+      const intro = time.split(" ");
+      const verbWords = verb.split(" ");
+      const words = [...intro, ...verbWords, a, b, "und", c + "."];
+      const commaAfter = intro.length + verbWords.length;
+      // Only ONE comma: between item a and item b. NO comma before "und".
+      return buildExercise(
+        words,
+        [commaAfter],
+        "Aufzählung",
+        "In Aufzählungen werden die Glieder durch Kommas getrennt. Vor dem letzten „und“ steht KEIN Komma."
+      );
+    },
+
+    // ---- AUFZÄHLUNG: 4 items, last joined by "und" ----
+    () => {
+      const items = pickN(SPORTS, 4);
+      const subj = pick(NAMES);
+      const verb = pick(["spielt", "trainiert", "übt"]);
+      const words = [subj, verb, items[0], items[1], items[2], "und", items[3] + "."];
+      // Two commas: between items 1-2 and 2-3. NO comma before "und".
+      return buildExercise(
+        words,
+        [2, 3],
+        "Aufzählung",
+        "Mehrere Aufzählungsglieder werden durch Kommas getrennt – vor dem abschließenden „und“ steht jedoch kein Komma."
+      );
+    },
+
+    // ---- AUFZÄHLUNG: hobbies (3 items + und) ----
+    () => {
+      const items = pickN(HOBBIES, 3);
+      const words = ["Meine", "Hobbys", "sind", items[0], items[1], "und", items[2] + "."];
+      // Only one comma between the two items before "und".
+      return buildExercise(
+        words,
+        [3],
+        "Aufzählung",
+        "Bei Aufzählungen trennt das Komma die einzelnen Glieder. Vor „und“ am Ende steht keines."
+      );
+    },
+
+    // ---- AUFZÄHLUNG: school subjects (3 items + und) ----
+    () => {
+      const items = pickN(SUBJECTS_SCHOOL, 3);
+      const words = ["In", "der", "Schule", "habe", "ich", items[0], items[1], "und", items[2] + "."];
+      return buildExercise(
+        words,
+        [5],
+        "Aufzählung",
+        "Schulfächer in einer Reihe werden durch Kommas getrennt. Vor dem „und“ am Ende kommt kein Komma."
+      );
+    },
+
+    // ---- NEBENSATZ mit "weil" am Ende ----
+    () => {
+      const subj = pick(NAMES);
+      const reason = pick(REASONS);
+      const reasonWords = reason.split(" ");
+      const words = [subj, "freut", "sich", "weil", ...reasonWords];
+      // add period to last word
+      words[words.length - 1] = words[words.length - 1] + ".";
+      return buildExercise(
+        words,
+        [2],
+        "Nebensatz mit „weil“",
+        "Nebensätze, die mit „weil“ eingeleitet werden, werden vom Hauptsatz immer durch ein Komma getrennt."
+      );
+    },
+
+    // ---- NEBENSATZ mit "dass" ----
+    () => {
+      const subj = pick(NAMES);
+      const verb = pick(["sagte", "meinte", "erzählte", "behauptete", "wusste"]);
+      const second = pick(["sie heute keine Zeit hat", "er morgen kommt", "alles in Ordnung ist", "die Aufgabe leicht war", "das Wetter schön wird"]);
+      const secondWords = second.split(" ");
+      const words = [subj, verb, "dass", ...secondWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [1],
+        "Nebensatz mit „dass“",
+        "Vor Nebensätzen mit „dass“ steht immer ein Komma, das den Nebensatz vom Hauptsatz abtrennt."
+      );
+    },
+
+    // ---- NEBENSATZ vorangestellt mit "Wenn" ----
+    () => {
+      const cond = pick(["es regnet", "es schneit", "die Sonne scheint", "ich Hunger habe", "der Lehrer ruft"]);
+      const condWords = cond.split(" ");
+      const main = pick(["bleibe ich zu Hause", "spielen wir drinnen", "gehen wir spazieren", "esse ich etwas", "stehe ich auf"]);
+      const mainWords = main.split(" ");
+      const words = ["Wenn", ...condWords, ...mainWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [condWords.length],
+        "Nebensatz vorne",
+        "Steht der Nebensatz (mit „wenn“, „weil“, „obwohl“ usw.) am Satzanfang, folgt nach ihm ein Komma."
+      );
+    },
+
+    // ---- NEBENSATZ vorangestellt mit "Obwohl" ----
+    () => {
+      const cond = pick(["es spät ist", "ich müde bin", "es regnet", "die Aufgabe schwer war", "der Weg weit ist"]);
+      const condWords = cond.split(" ");
+      const main = pick(["mache ich weiter", "gehe ich los", "lerne ich noch", "spielen wir draußen", "lese ich ein Buch"]);
+      const mainWords = main.split(" ");
+      const words = ["Obwohl", ...condWords, ...mainWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [condWords.length],
+        "Nebensatz vorne",
+        "Vorangestellte Nebensätze mit „obwohl“ werden durch ein Komma vom Hauptsatz getrennt."
+      );
+    },
+
+    // ---- NEBENSATZ am Ende mit "weil" + Begründung ----
+    () => {
+      const subj = pick(NAMES);
+      const main = pick(["geht früh ins Bett", "macht die Hausaufgaben", "geht nicht raus", "trinkt einen Tee", "zieht eine Jacke an"]);
+      const mainWords = main.split(" ");
+      const reason = pick(COMPLAINTS);
+      const reasonWords = reason.split(" ");
+      const words = [subj, ...mainWords, "weil", ...reasonWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [1 + mainWords.length - 1],
+        "Nebensatz mit „weil“",
+        "Wenn der Nebensatz mit „weil“ am Ende steht, kommt davor ein Komma."
+      );
+    },
+
+    // ---- ANREDE am Anfang ----
+    () => {
+      const greet = pick(["Hallo", "Guten Morgen", "Hi", "Servus", "Hey"]);
+      const greetWords = greet.split(" ");
+      const name = pick(NAMES);
+      const rest = pick(["wie geht es dir?", "schön dich zu sehen!", "wie war die Schule?", "kommst du mit?"]);
+      const restWords = rest.split(" ");
+      const words = [...greetWords, name, ...restWords];
+      // comma after greet (last word of greeting) and after name
+      return buildExercise(
+        words,
+        [greetWords.length - 1, greetWords.length],
+        "Anrede",
+        "Nach einer Anrede steht ein Komma. Der Name als Anrede wird durch Kommas vom Rest abgetrennt."
+      );
+    },
+
+    // ---- ANREDE eingeschoben ----
+    () => {
+      const name = pick(NAMES);
+      const opts = [
+        { start: "Komm bitte", end: "wir müssen los", punct: "!" },
+        { start: "Pass auf", end: "das ist wichtig", punct: "!" },
+        { start: "Hör mal", end: "kannst du mir helfen", punct: "?" },
+        { start: "Sag mal", end: "hast du Zeit", punct: "?" },
+        { start: "Komm", end: "ich brauche dich", punct: "!" }
+      ];
+      const o = pick(opts);
+      const startWords = o.start.split(" ");
+      const endWords = o.end.split(" ");
+      const words = [...startWords, name, ...endWords];
+      words[words.length - 1] += o.punct;
+      return buildExercise(
+        words,
+        [startWords.length - 1, startWords.length],
+        "Anrede eingeschoben",
+        "Eine eingeschobene Anrede wird durch zwei Kommas vom Rest des Satzes abgetrennt."
+      );
+    },
+
+    // ---- AUSRUF + HAUPTSATZ ----
+    () => {
+      const exclaim = pick(["Oh", "Ach", "Wow", "Mensch", "Boah"]);
+      const main = pick(["das ist ja toll", "das wusste ich nicht", "wie schön", "das gefällt mir", "endlich Ferien"]);
+      const mainWords = main.split(" ");
+      const words = [exclaim, ...mainWords];
+      words[words.length - 1] += "!";
+      return buildExercise(
+        words,
+        [0],
+        "Ausruf",
+        "Nach einem Ausruf wie „Oh“ oder „Ach“ folgt ein Komma."
+      );
+    },
+
+    // ---- RELATIVSATZ eingeschoben (der/die/das) ----
+    () => {
+      // Each item carries its own appropriate endings
+      const variants = [
+        { art: "Der", word: "Hund", rel: "der", verb: "bellt", endings: ["ist sehr klein", "gehört uns", "ist mein bester Freund", "wedelt mit dem Schwanz"] },
+        { art: "Die", word: "Katze", rel: "die", verb: "schläft", endings: ["ist sehr alt", "gehört meiner Oma", "schnurrt leise", "ist ganz weich"] },
+        { art: "Das", word: "Kind", rel: "das", verb: "spielt", endings: ["lacht laut", "wohnt nebenan", "ist mein Cousin", "winkt fröhlich"] },
+        { art: "Das", word: "Buch", rel: "das", verb: "ich lese", endings: ["ist spannend", "gefällt mir gut", "stammt aus der Bibliothek", "hat tolle Bilder"] },
+        { art: "Der", word: "Lehrer", rel: "der", verb: "uns unterrichtet", endings: ["ist sehr nett", "kommt aus Berlin", "erklärt alles toll", "kann gut Witze erzählen"] },
+        { art: "Die", word: "Frau", rel: "die", verb: "dort steht", endings: ["ist meine Tante", "wartet auf den Bus", "wohnt in unserer Straße", "trägt einen blauen Mantel"] }
+      ];
+      const v = pick(variants);
+      const ending = pick(v.endings);
+      const verbWords = v.verb.split(" ");
+      const endingWords = ending.split(" ");
+      const words = [v.art, v.word, v.rel, ...verbWords, ...endingWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [1, 1 + 1 + verbWords.length],
+        "Relativsatz",
+        "Eingeschobene Relativsätze (mit „der“, „die“, „das“) werden durch zwei Kommas vom Hauptsatz abgetrennt."
+      );
+    },
+
+    // ---- RELATIVSATZ am Ende ----
+    () => {
+      const items = [
+        { article: "Das", noun: "Buch", rel: "das", body: "ich gestern gekauft habe", adjs: ["spannend", "interessant", "großartig", "lustig"] },
+        { article: "Der", noun: "Film", rel: "den", body: "wir gesehen haben", adjs: ["spannend", "lustig", "langweilig", "fantastisch"] },
+        { article: "Die", noun: "Aufgabe", rel: "die", body: "wir lösen sollen", adjs: ["schwer", "leicht", "kompliziert", "interessant"] },
+        { article: "Der", noun: "Kuchen", rel: "den", body: "Oma gebacken hat", adjs: ["lecker", "süß", "groß", "wunderbar"] }
+      ];
+      const it = pick(items);
+      const adj = pick(it.adjs);
+      const bodyWords = it.body.split(" ");
+      const words = [it.article, it.noun, "ist", adj, it.rel, ...bodyWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [3],
+        "Relativsatz am Ende",
+        "Auch ein angehängter Relativsatz wird durch ein Komma vom Hauptsatz abgetrennt."
+      );
+    },
+
+    // ---- INFINITIV mit "um zu" ----
+    () => {
+      const subj = pick(NAMES);
+      const main = pick(["geht in die Bibliothek", "fährt zum Supermarkt", "läuft zur Schule", "öffnet das Fenster", "nimmt den Bus"]);
+      const mainWords = main.split(" ");
+      const purpose = pick(["um ein Buch zu leihen", "um Brot zu kaufen", "um pünktlich zu sein", "um frische Luft zu bekommen", "um schneller anzukommen"]);
+      const purposeWords = purpose.split(" ");
+      const words = [subj, ...mainWords, ...purposeWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [mainWords.length],
+        "Infinitiv mit „um zu“",
+        "Vor erweiterten Infinitiv-Gruppen mit „um … zu“ steht ein Komma."
+      );
+    },
+
+    // ---- WÖRTLICHE REDE Vorspann ----
+    () => {
+      const subj = pick(NAMES);
+      const verb = pick(["sagt", "ruft", "fragt", "antwortet", "flüstert"]);
+      const speech = pick(["Ich komme gleich", "Das ist wunderbar", "Wo bist du", "Pass gut auf", "Ich habe Hunger"]);
+      const speechWords = speech.split(" ");
+      // Format: Subj verb: "Speech!"
+      // For simplicity in our gap UI, we treat this as just a comma exercise after speech.
+      // Use pattern: "Komm her", sagte Lisa.
+      const words = ['"' + speechWords[0], ...speechWords.slice(1, -1), speechWords[speechWords.length - 1] + '"', verb, subj + "."];
+      return buildExercise(
+        words,
+        [speechWords.length - 1],
+        "Wörtliche Rede",
+        "Nach der wörtlichen Rede in Anführungszeichen steht ein Komma, bevor der Begleitsatz folgt."
+      );
+    },
+
+    // ---- TEMPORALER NEBENSATZ mit "als" ----
+    () => {
+      const subj = pick(NAMES);
+      const cond = pick(["nach Hause kam", "vom Sport zurückkehrte", "ins Zimmer trat", "die Tür öffnete"]);
+      const condWords = cond.split(" ");
+      const main = pick(["war alles still", "lag ein Brief auf dem Tisch", "schlief der Hund schon", "war niemand da"]);
+      const mainWords = main.split(" ");
+      const words = ["Als", subj, ...condWords, ...mainWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [1 + condWords.length],
+        "Nebensatz mit „als“",
+        "Steht der Nebensatz mit „als“ vor dem Hauptsatz, folgt nach ihm ein Komma."
+      );
+    },
+
+    // ---- INDIREKTE FRAGE mit "ob" ----
+    () => {
+      const subj = pick(NAMES);
+      const verb = pick(["fragt", "möchte wissen", "überlegt"]);
+      const verbWords = verb.split(" ");
+      const question = pick(["ob es heute regnet", "ob du mitkommst", "ob das stimmt", "ob die Tür offen ist"]);
+      const qWords = question.split(" ");
+      const words = [subj, ...verbWords, ...qWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [verbWords.length],
+        "Indirekte Frage",
+        "Vor indirekten Fragesätzen (z. B. mit „ob“) steht ein Komma."
+      );
+    },
+
+    // ---- AUFZÄHLUNG mit "sowie" ----
+    () => {
+      const items = pickN(FRUITS, 3);
+      const words = ["Auf", "dem", "Markt", "gibt", "es", items[0], items[1], "sowie", items[2] + "."];
+      // Only one comma between items[0] and items[1]. NO comma before "sowie".
+      return buildExercise(
+        words,
+        [5],
+        "Aufzählung",
+        "Vor „sowie“ steht in einer Aufzählung kein Komma – aber zwischen den anderen Gliedern schon."
+      );
+    },
+
+    // ---- ZWEI HAUPTSÄTZE durch "aber" verbunden ----
+    () => {
+      const subj = pick(NAMES);
+      const part1 = pick(["wollte spielen", "war müde", "hatte Hunger", "lachte laut"]);
+      const part1Words = part1.split(" ");
+      const part2 = pick(["niemand hatte Zeit", "trotzdem las sie weiter", "es gab nichts zu essen", "alle waren still"]);
+      const part2Words = part2.split(" ");
+      const words = [subj, ...part1Words, "aber", ...part2Words];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [part1Words.length],
+        "Hauptsätze mit „aber“",
+        "Werden zwei Hauptsätze durch „aber“ verbunden, steht davor ein Komma."
+      );
+    },
+
+    // ---- "denn" zwischen zwei Hauptsätzen ----
+    () => {
+      const opts = [
+        { main: "bleibt zu Hause", reason: "es ist kalt" },
+        { main: "geht früh ins Bett", reason: "es ist spät" },
+        { main: "trinkt viel Wasser", reason: "es ist heiß" },
+        { main: "öffnet das Fenster", reason: "es ist stickig" },
+        { main: "zieht eine Jacke an", reason: "es ist windig" },
+        { main: "macht Pause", reason: "die Aufgabe war schwer" }
+      ];
+      const o = pick(opts);
+      const subj = pick(NAMES);
+      const mainWords = o.main.split(" ");
+      const reasonWords = o.reason.split(" ");
+      const words = [subj, ...mainWords, "denn", ...reasonWords];
+      words[words.length - 1] += ".";
+      return buildExercise(
+        words,
+        [mainWords.length],
+        "Hauptsätze mit „denn“",
+        "Vor „denn“, wenn es zwei Hauptsätze verbindet, steht immer ein Komma."
+      );
+    }
+  ];
+
+  // ============= Generate randomized exercise set per load =============
+  const TOTAL_QUESTIONS = 10;
+  function generateExerciseSet() {
+    const shuffled = shuffle(templates);
+    const set = [];
+    // Ensure we don't pick the same template twice if pool >= TOTAL_QUESTIONS
+    const pool = shuffled.length >= TOTAL_QUESTIONS ? shuffled.slice(0, TOTAL_QUESTIONS) : shuffled;
+    pool.forEach(t => set.push(t()));
+    // If pool was smaller than TOTAL_QUESTIONS, top up by re-running random templates
+    while (set.length < TOTAL_QUESTIONS) {
+      set.push(pick(templates)());
+    }
+    return set;
+  }
+
+  let exercises = generateExerciseSet();
+
+  // ============= State =============
+  let currentIndex = 0;
+  let score = 0;
+  let correctCount = 0;
+  let attemptedThis = false;
+
+  // ============= DOM Build =============
+  const container = document.getElementById('slideContainer');
+  const progressEl = document.getElementById('progress');
+  const scoreEl = document.getElementById('scoreVal');
+  const totalQEl = document.getElementById('totalQ');
+
+  // Build all exercise slides dynamically (called on load and on restart)
+  function buildSlides() {
+    // Remove any existing exercise slides (keep welcome and result)
+    container.querySelectorAll('.slide[data-slide^="ex-"]').forEach(s => s.remove());
+    // Update welcome total
+    if (totalQEl) totalQEl.textContent = exercises.length;
+
+    const resultSlide = container.querySelector('[data-slide="result"]');
+    exercises.forEach((ex, idx) => {
+      const slide = document.createElement('section');
+      slide.className = 'slide';
+      slide.dataset.slide = `ex-${idx}`;
+
+      let sentenceHTML = '';
+      ex.words.forEach((word, wi) => {
+        sentenceHTML += `<span class="word">${word}</span>`;
+        // gap after each word except last (no trailing space — gap inline-blocks naturally)
+        if (wi < ex.words.length - 1) {
+          sentenceHTML += `<button class="gap" data-pos="${wi}" data-ex="${idx}" aria-label="Komma setzen oder entfernen"></button> `;
+        }
+      });
+
+      slide.innerHTML = `
+        <div class="question-meta">
+          <span class="tag">Satz ${idx + 1} / ${exercises.length}</span>
+          <span class="pill">📝 ${ex.rule}</span>
+        </div>
+        <h2>Setze die <em>Kommas</em>.</h2>
+        <p class="lead">Klicke auf die Kreise zwischen den Wörtern, an denen ein Komma stehen soll. Wenn du fertig bist, drücke „Prüfen“.</p>
+
+        <div class="sentence-area" data-sentence="${idx}">${sentenceHTML}</div>
+
+        <div class="feedback" id="feedback-${idx}"></div>
+
+        <div class="actions">
+          <div>
+            <button class="hint-btn" onclick="toggleHint(${idx})">💡 Tipp</button>
+            <div class="hint-text" id="hint-${idx}">Achte auf die Regel: <strong>${ex.rule}</strong>. Es gibt <strong>${ex.commas.length}</strong> Komma${ex.commas.length === 1 ? '' : 's'} in diesem Satz.</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn secondary" onclick="resetCurrent(${idx})">↻ Zurücksetzen</button>
+            <button class="btn" id="check-${idx}" onclick="checkAnswer(${idx})">Prüfen ✓</button>
+          </div>
+        </div>
+
+        <div class="legend">Tipp: Tippe auf einen Kreis, um ein Komma zu setzen oder zu entfernen.</div>
+      `;
+      container.insertBefore(slide, resultSlide);
+    });
+
+    // Attach gap click handlers
+    document.querySelectorAll('.gap').forEach(gap => {
+      gap.addEventListener('click', () => {
+        if (gap.classList.contains('correct') || gap.classList.contains('wrong') || gap.classList.contains('missed')) return;
+        gap.classList.toggle('placed');
+      });
+    });
+  }
+
+  buildSlides();
+
+  // ============= Logic =============
+  function showSlide(name) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector(`[data-slide="${name}"]`);
+    if (target) target.classList.add('active');
+  }
+
+  function startExercise() {
+    currentIndex = 0;
+    showSlide(`ex-${currentIndex}`);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const pct = ((currentIndex) / exercises.length) * 100;
+    progressEl.style.width = `${pct}%`;
+    scoreEl.textContent = score;
+  }
+
+  function toggleHint(idx) {
+    document.getElementById(`hint-${idx}`).classList.toggle('show');
+  }
+
+  function resetCurrent(idx) {
+    if (attemptedThis) return; // can't reset after check
+    document.querySelectorAll(`[data-ex="${idx}"]`).forEach(g => {
+      g.classList.remove('placed', 'correct', 'wrong', 'missed');
+    });
+  }
+
+  function checkAnswer(idx) {
+    if (attemptedThis) {
+      // already checked → go next
+      goNext(idx);
+      return;
+    }
+    attemptedThis = true;
+    const ex = exercises[idx];
+    const gaps = document.querySelectorAll(`[data-ex="${idx}"]`);
+    let correctPlacements = 0;
+    let wrongPlacements = 0;
+    let missedPlacements = 0;
+
+    gaps.forEach(gap => {
+      const pos = parseInt(gap.dataset.pos);
+      const placed = gap.classList.contains('placed');
+      const shouldHave = ex.commas.includes(pos);
+
+      gap.classList.remove('placed');
+      if (shouldHave && placed) {
+        gap.classList.add('correct');
+        correctPlacements++;
+      } else if (!shouldHave && placed) {
+        gap.classList.add('wrong');
+        wrongPlacements++;
+      } else if (shouldHave && !placed) {
+        gap.classList.add('missed');
+        missedPlacements++;
+      }
+    });
+
+    const allCorrect = (correctPlacements === ex.commas.length) && (wrongPlacements === 0);
+    const feedback = document.getElementById(`feedback-${idx}`);
+
+    if (allCorrect) {
+      score += 10;
+      correctCount++;
+      feedback.className = 'feedback success show';
+      feedback.innerHTML = `<strong>🎉 Super! Alles richtig!</strong>${ex.explanation}`;
+      launchConfetti();
+    } else {
+      // partial credit
+      const partial = Math.max(0, correctPlacements * 2 - wrongPlacements);
+      score += partial;
+      feedback.className = 'feedback error show';
+      let msg = `<strong>Fast! Schau noch mal genau hin.</strong>`;
+      if (wrongPlacements > 0) msg += `🔴 Rote Kreise: hier sollte <em>kein</em> Komma stehen. `;
+      if (missedPlacements > 0) msg += `⚠️ Markierte Kreise: hier <em>fehlt</em> ein Komma. `;
+      msg += `<br><br>${ex.explanation}`;
+      feedback.innerHTML = msg;
+    }
+
+    updateProgress();
+
+    // Change button to "Next"
+    const btn = document.getElementById(`check-${idx}`);
+    if (idx < exercises.length - 1) {
+      btn.innerHTML = 'Nächster Satz →';
+      btn.classList.add('success-btn');
+    } else {
+      btn.innerHTML = 'Ergebnis ansehen 🏆';
+      btn.classList.add('success-btn');
+    }
+  }
+
+  function goNext(idx) {
+    attemptedThis = false;
+    if (idx < exercises.length - 1) {
+      currentIndex = idx + 1;
+      showSlide(`ex-${currentIndex}`);
+      updateProgress();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const total = exercises.length;
+    const pct = Math.round((correctCount / total) * 100);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalCorrect').textContent = `${correctCount}/${total}`;
+    document.getElementById('finalPercent').textContent = `${pct}%`;
+
+    let badgeText = '';
+    if (pct === 100) badgeText = '🏆 Komma-Meister';
+    else if (pct >= 75) badgeText = '🌟 Komma-Profi';
+    else if (pct >= 50) badgeText = '👍 Auf gutem Weg';
+    else badgeText = '💪 Weiter üben!';
+    document.getElementById('finalBadge').textContent = badgeText;
+
+    progressEl.style.width = '100%';
+    showSlide('result');
+
+    if (pct >= 75) launchConfetti(60);
+  }
+
+  function restart() {
+    currentIndex = 0;
+    score = 0;
+    correctCount = 0;
+    attemptedThis = false;
+    scoreEl.textContent = 0;
+    progressEl.style.width = '0%';
+
+    // Generate fresh exercises and rebuild all slides
+    exercises = generateExerciseSet();
+    buildSlides();
+
+    showSlide('welcome');
+  }
+
+  // ============= Confetti =============
+  function launchConfetti(count = 30) {
+    const colors = ['#f582ae', '#8bd3dd', '#fef6e4', '#001858', '#f3d2c1'];
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }, i * 30);
+    }
+  }
+
+  // Keyboard navigation: Enter to check / advance
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const activeSlide = document.querySelector('.slide.active');
+      if (!activeSlide) return;
+      const slideName = activeSlide.dataset.slide;
+      if (slideName.startsWith('ex-')) {
+        const idx = parseInt(slideName.split('-')[1]);
+        const btn = document.getElementById(`check-${idx}`);
+        if (btn) btn.click();
+      }
+    }
+  });
+</script>
+</body>
+</html>
