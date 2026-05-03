@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redezeichen-Profi · Übung wörtliche Rede · Klasse 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef6e4;
+    --bg-2: #f3d2c1;
+    --ink: #001858;
+    --ink-soft: #172c66;
+    --paper: #fffaf0;
+    --accent: #f582ae;
+    --accent-2: #8bd3dd;
+    --good: #2e7d4f;
+    --good-bg: #d4f1d6;
+    --bad: #b3261e;
+    --bad-bg: #fbd6d3;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-soft: 4px 4px 0 var(--ink);
+
+    --quote-color: #d62b6b;
+    --colon-color: #4a3aff;
+    --comma-color: #f582ae;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(245, 130, 174, 0.18) 0, transparent 35%),
+      radial-gradient(circle at 85% 80%, rgba(139, 211, 221, 0.22) 0, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(243, 210, 193, 0.15) 0, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .floater {
+    position: fixed;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    color: var(--ink);
+    opacity: 0.06;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    animation: float 14s ease-in-out infinite;
+  }
+  .floater:nth-child(1) { top: 8%; left: 5%; font-size: 200px; animation-delay: 0s; }
+  .floater:nth-child(2) { top: 65%; left: 85%; font-size: 240px; animation-delay: -3s; }
+  .floater:nth-child(3) { top: 75%; left: 8%; font-size: 160px; animation-delay: -6s; }
+  .floater:nth-child(4) { top: 12%; left: 78%; font-size: 180px; animation-delay: -9s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50% { transform: translateY(-30px) rotate(8deg); }
+  }
+
+  header {
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1;
+    box-shadow: var(--shadow-soft);
+    transform: rotate(-5deg);
+    color: var(--quote-color);
+  }
+
+  .brand h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .brand .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .progress-wrap { display: flex; align-items: center; gap: 16px; }
+
+  .score {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .score-icon { font-size: 18px; }
+
+  .progress-bar {
+    width: 200px;
+    height: 14px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .slide {
+    width: 100%;
+    max-width: 920px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 40px;
+    position: relative;
+    display: none;
+    animation: slideIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .slide.active { display: block; }
+
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .slide h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    margin-bottom: 14px;
+  }
+  .slide h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .slide .lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Welcome ---------- */
+  .welcome { text-align: center; }
+  .welcome h2 { font-size: 50px; margin-bottom: 8px; }
+  .welcome .lead { font-size: 18px; margin-bottom: 8px; }
+
+  .symbol-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .symbol-card {
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 16px 12px;
+    background: var(--bg);
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+  .symbol-glyph {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 0.9;
+    color: var(--quote-color);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .symbol-glyph.colon { color: var(--colon-color); }
+  .symbol-glyph.comma { color: var(--comma-color); }
+  .symbol-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .symbol-when {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+
+  .pos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin: 18px 0 28px;
+    text-align: left;
+  }
+  .pos-card {
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 14px 16px;
+    background: var(--paper);
+  }
+  .pos-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .pos-card .ex {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    line-height: 1.5;
+    background: var(--bg);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px dashed var(--ink);
+  }
+  .pos-card .ex .pz { color: var(--quote-color); font-weight: 900; }
+  .pos-card .ex .pc { color: var(--colon-color); font-weight: 900; }
+  .pos-card .ex .pm { color: var(--comma-color); font-weight: 900; }
+
+  /* ---------- Exercise ---------- */
+  .question-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .sentence-area {
+    background: var(--bg);
+    border: 3px dashed var(--ink);
+    border-radius: 18px;
+    padding: 32px 28px;
+    margin: 20px 0 22px;
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    line-height: 2;
+    text-align: left;
+  }
+
+  .word {
+    display: inline;
+    padding: 0;
+  }
+
+  /* The clickable slot rotates between options */
+  .slot {
+    display: inline-block;
+    width: 28px;
+    height: 32px;
+    margin: 0 1px;
+    border: 2px dashed var(--ink-soft);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    vertical-align: -6px;
+    background: transparent;
+    padding: 0;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--ink);
+    position: relative;
+    text-align: center;
+  }
+
+  .slot:hover {
+    background: var(--accent-2);
+    border-color: var(--ink);
+    border-style: solid;
+    transform: scale(1.1);
+  }
+
+  /* Filled state — shows the chosen symbol prominently in its own color */
+  .slot.filled {
+    width: auto;
+    min-width: 12px;
+    height: auto;
+    border: none;
+    background: transparent;
+    color: var(--quote-color);
+    font-size: 38px;
+    vertical-align: baseline;
+    margin: 0 1px;
+    padding: 0 2px;
+    transform: none;
+    animation: pop 0.25s ease;
+  }
+  .slot.filled[data-current="co"] { color: var(--colon-color); font-size: 28px; vertical-align: baseline; }
+  .slot.filled[data-current="km"] { color: var(--comma-color); font-size: 32px; vertical-align: baseline; }
+
+  .slot.filled:hover {
+    background: var(--bg-2);
+    border-radius: 6px;
+    transform: scale(1.08);
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    60% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  /* Result colors */
+  .slot.correct {
+    background: var(--good-bg);
+    border-radius: 6px;
+    border: none;
+    cursor: default;
+    color: var(--good);
+  }
+  .slot.wrong {
+    background: var(--bad-bg);
+    border-radius: 6px;
+    border: 2px solid var(--bad);
+    cursor: default;
+    color: var(--bad);
+    animation: shake 0.4s;
+  }
+  .slot.missed {
+    background: var(--bad-bg);
+    border-radius: 50%;
+    border: 2px dashed var(--bad);
+    cursor: default;
+    color: var(--bad);
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    line-height: 1.5;
+    vertical-align: middle;
+    animation: pulse-miss 0.5s;
+  }
+  .slot.missed::before {
+    content: '!';
+    color: var(--bad);
+    font-weight: 900;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  @keyframes pulse-miss {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+  }
+
+  /* Feedback box */
+  .feedback {
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: none;
+    font-size: 15px;
+    line-height: 1.5;
+    border: 2px solid;
+    animation: slideIn 0.4s ease;
+  }
+  .feedback.show { display: block; }
+  .feedback.success { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+  .feedback.error { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+  .feedback strong {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Solution display */
+  .solution {
+    background: var(--paper);
+    border: 2px solid var(--good);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    line-height: 1.5;
+  }
+  .solution .label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--good);
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+  .solution .pz { color: var(--quote-color); font-weight: 900; }
+  .solution .pc { color: var(--colon-color); font-weight: 900; }
+  .solution .pm { color: var(--comma-color); font-weight: 900; }
+
+  /* Symbol toolbar (legend during exercise) */
+  .toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .tool-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-weight: 600;
+  }
+  .tool-chip .gl {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    line-height: 0.6;
+    color: var(--quote-color);
+  }
+  .tool-chip .gl.colon { color: var(--colon-color); font-size: 18px; }
+  .tool-chip .gl.comma { color: var(--comma-color); font-size: 22px; }
+
+  /* Actions */
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .hint-btn {
+    background: transparent;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .hint-btn:hover { background: var(--ink); color: var(--paper); }
+  .hint-text {
+    margin-top: 8px;
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .hint-text.show { display: block; }
+
+  .btn {
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    color: var(--ink);
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: var(--shadow-soft); }
+  .btn.secondary { background: var(--paper); }
+  .btn.success-btn { background: var(--good); color: var(--paper); }
+
+  /* Result */
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .stat-card {
+    background: var(--bg);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .badge-area { text-align: center; margin: 24px 0; }
+  .badge {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 14px 32px;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    box-shadow: var(--shadow-soft);
+    animation: badgePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes badgePop {
+    0% { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  .confetti-piece {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    top: -20px;
+    z-index: 100;
+    animation: confettiFall 3s linear forwards;
+    pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .legend {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  @media (max-width: 720px) {
+    .slide { padding: 24px; }
+    .slide h2 { font-size: 28px; }
+    .sentence-area { font-size: 20px; padding: 22px 14px; }
+    .symbol-row, .pos-grid, .result-grid { grid-template-columns: 1fr 1fr; }
+    .progress-bar { width: 120px; }
+    header { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
+    .welcome h2 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="floater">„</div>
+<div class="floater">"</div>
+<div class="floater">:</div>
+<div class="floater">,</div>
+
+<header>
+  <div class="brand">
+    <div class="logo">„</div>
+    <div>
+      <h1>Redezeichen-Profi</h1>
+      <div class="sub">Klasse 6 · Übung wörtliche Rede</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="score">
+      <span class="score-icon">⭐</span>
+      <span id="scoreVal">0</span> Punkte
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+  </div>
+</header>
+
+<main id="slideContainer">
+
+  <!-- ====== Welcome Slide ====== -->
+  <section class="slide active" data-slide="welcome">
+    <div class="welcome">
+      <span class="tag">Los geht's!</span>
+      <h2>Werde zum <em>Redezeichen-Profi</em>!</h2>
+      <p class="lead">Setze in <strong id="totalQ">10</strong> Sätzen die richtigen Satzzeichen für die wörtliche Rede an die freien Stellen. Klicke auf einen Kreis, um durch die Möglichkeiten zu rotieren.</p>
+
+      <div class="symbol-row">
+        <div class="symbol-card">
+          <span class="symbol-glyph">„</span>
+          <div class="symbol-name">Anführung unten</div>
+          <div class="symbol-when">öffnet die Rede</div>
+        </div>
+        <div class="symbol-card">
+          <span class="symbol-glyph">"</span>
+          <div class="symbol-name">Anführung oben</div>
+          <div class="symbol-when">schließt die Rede</div>
+        </div>
+        <div class="symbol-card">
+          <span class="symbol-glyph colon">:</span>
+          <div class="symbol-name">Doppelpunkt</div>
+          <div class="symbol-when">nach dem Begleitsatz vorne</div>
+        </div>
+        <div class="symbol-card">
+          <span class="symbol-glyph comma">,</span>
+          <div class="symbol-name">Komma</div>
+          <div class="symbol-when">trennt Begleitsatz vom Rest</div>
+        </div>
+      </div>
+
+      <div class="pos-grid">
+        <div class="pos-card">
+          <h4>① Begleitsatz vorne</h4>
+          <div class="ex">Lisa sagt<span class="pc">:</span> <span class="pz">„</span>Ich komme.<span class="pz">"</span></div>
+        </div>
+        <div class="pos-card">
+          <h4>② Begleitsatz hinten</h4>
+          <div class="ex"><span class="pz">„</span>Ich komme<span class="pz">"</span><span class="pm">,</span> sagt Lisa.</div>
+        </div>
+        <div class="pos-card">
+          <h4>③ Begleitsatz eingeschoben</h4>
+          <div class="ex"><span class="pz">„</span>Ich komme<span class="pz">"</span><span class="pm">,</span> sagt Lisa<span class="pm">,</span> <span class="pz">„</span>und bringe Kuchen mit.<span class="pz">"</span></div>
+        </div>
+      </div>
+
+      <button class="btn" onclick="startExercise()">Übung starten →</button>
+    </div>
+  </section>
+
+  <!-- Exercise slides built dynamically -->
+
+  <!-- ====== Result Slide ====== -->
+  <section class="slide" data-slide="result">
+    <span class="tag">Fertig!</span>
+    <h2>Du hast es <em>geschafft!</em></h2>
+    <p class="lead">Hier ist dein Ergebnis. Möchtest du nochmal üben?</p>
+
+    <div class="badge-area">
+      <div class="badge" id="finalBadge">🌟 Redezeichen-Profi</div>
+    </div>
+
+    <div class="result-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="finalScore">0</div>
+        <div class="stat-label">Punkte gesamt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalCorrect">0/10</div>
+        <div class="stat-label">Richtige Sätze</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalPercent">0%</div>
+        <div class="stat-label">Erfolgsquote</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="btn" onclick="restart()">🔁 Nochmal üben</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ============= Symbol options =============
+  // Each slot rotates through these states. "none" = no symbol (default).
+  // Codes: 'qo' = „ (Anführung unten / öffnen)
+  //        'qc' = " (Anführung oben / schließen)
+  //        'co' = : (Doppelpunkt)
+  //        'km' = , (Komma)
+  // Display map for HTML rendering
+  const SYMBOLS = {
+    none: { display: '', html: '' },
+    qo:   { display: '„', html: '„', cls: 'pz' },
+    qc:   { display: '"', html: '"', cls: 'pz' },
+    co:   { display: ':', html: ':', cls: 'pc' },
+    km:   { display: ',', html: ',', cls: 'pm' }
+  };
+
+  // Rotation order — clicking cycles through these in order
+  const ROTATION = ['none', 'qo', 'qc', 'co', 'km'];
+
+  // ============= Word pools =============
+  const NAMES = ["Lisa", "Max", "Anna", "Tim", "Mia", "Paul", "Emma", "Jonas", "Lena", "Felix", "Sophie", "Ben", "Hannah", "Leon", "Marie", "Noah"];
+  const VERBS_SAY = ["sagt", "ruft", "fragt", "antwortet", "flüstert", "meint", "erklärt", "behauptet", "erzählt"];
+
+  // Speech (Aussage = ends with .)
+  const STATEMENTS = [
+    "Ich komme gleich",
+    "Das ist wunderbar",
+    "Die Aufgabe ist leicht",
+    "Wir gewinnen das Spiel",
+    "Heute regnet es nicht",
+    "Mein Hund schläft schon",
+    "Ich habe großen Hunger",
+    "Das Buch ist spannend",
+    "Morgen fahren wir weg",
+    "Die Suppe ist heiß",
+    "Wir müssen uns beeilen",
+    "Ich freue mich sehr"
+  ];
+
+  // Speech (Frage = ends with ?)
+  const QUESTIONS = [
+    "Wo bist du gerade",
+    "Hast du schon gegessen",
+    "Wann kommst du nach Hause",
+    "Wie heißt dein Hund",
+    "Kannst du mir helfen",
+    "Wer hat das Fenster geöffnet",
+    "Warum ist es so still"
+  ];
+
+  // Speech (Ausruf = ends with !)
+  const EXCLAMATIONS = [
+    "Pass gut auf",
+    "Komm schnell her",
+    "Sei bitte leise",
+    "Das ist ja toll",
+    "Hilf mir mal",
+    "Mach das Licht aus"
+  ];
+
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const shuffle = arr => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  // ===========================================================================
+  // Exercise structure:
+  // {
+  //   parts: [
+  //     { type: 'text', value: 'Lisa sagt' },
+  //     { type: 'slot', solution: 'co' },        // expects ':'
+  //     { type: 'text', value: ' ' },             // pure text (always shown)
+  //     { type: 'slot', solution: 'qo' },        // expects „
+  //     { type: 'text', value: 'Ich komme.' },
+  //     { type: 'slot', solution: 'qc' }         // expects "
+  //   ],
+  //   variant: 'vorne' | 'hinten' | 'eingeschoben',
+  //   solutionText: 'Lisa sagt: „Ich komme."'   // for showing the solution
+  // }
+  //
+  // Note: we put a slot wherever a punctuation could go in this position type.
+  // For Variante "vorne", slots are: after begleitsatz (:), before speech („),
+  //   after speech end punct ("). The end-punct of speech itself stays inside
+  //   the text part (Lisa sagt: „Ich komme.")
+  // For "hinten": before speech („), after speech-without-final-punct ("),
+  //   then a slot for ',' after, and end with begleitsatz + . (which is part of text)
+  //   Pattern: „Ich komme", sagt Lisa.
+  // For "eingeschoben": „...",sagt Lisa,"...".
+  // ===========================================================================
+
+  function buildExercise(variant) {
+    let parts = [];
+    let solutionText = '';
+
+    if (variant === 'vorne') {
+      // Begleitsatz vorne: NAME VERB: „SPEECH.[?!]"
+      const subj = pick(NAMES);
+      const verb = pick(VERBS_SAY);
+      // Pick a speech type — adjust verb compatibility briefly:
+      // if verb is 'fragt', use a question; otherwise statement/exclamation
+      let speech, endPunct;
+      if (verb === 'fragt') {
+        speech = pick(QUESTIONS);
+        endPunct = '?';
+      } else if (verb === 'ruft') {
+        const useExcl = Math.random() < 0.6;
+        speech = useExcl ? pick(EXCLAMATIONS) : pick(STATEMENTS);
+        endPunct = useExcl ? '!' : '.';
+      } else {
+        speech = pick(STATEMENTS);
+        endPunct = '.';
+      }
+      parts = [
+        { type: 'text', value: subj + ' ' + verb },
+        { type: 'slot', solution: 'co' },             // :
+        { type: 'text', value: ' ' },
+        { type: 'slot', solution: 'qo' },             // „
+        { type: 'text', value: speech + endPunct },
+        { type: 'slot', solution: 'qc' }              // "
+      ];
+      solutionText =
+        `${subj} ${verb}<span class="pc">:</span> <span class="pz">„</span>${speech}${endPunct}<span class="pz">"</span>`;
+    }
+    else if (variant === 'hinten') {
+      // Begleitsatz hinten: „SPEECH"[?!,] BEGLEITSATZ.
+      // Simplification for grade 6: speech is a statement (no ? or !), comma is the rule.
+      // (For ?/! the comma is omitted — keep it simple and use only statements here.)
+      const subj = pick(NAMES);
+      const verb = pick(VERBS_SAY.filter(v => v !== 'fragt')); // avoid ambiguity
+      const speech = pick(STATEMENTS);
+      // Pattern: „SPEECH", VERB SUBJ.
+      parts = [
+        { type: 'slot', solution: 'qo' },                 // „
+        { type: 'text', value: speech },
+        { type: 'slot', solution: 'qc' },                 // "
+        { type: 'slot', solution: 'km' },                 // ,
+        { type: 'text', value: ' ' + verb + ' ' + subj + '.' }
+      ];
+      solutionText =
+        `<span class="pz">„</span>${speech}<span class="pz">"</span><span class="pm">,</span> ${verb} ${subj}.`;
+    }
+    else { // eingeschoben
+      // „SPEECH-PART-1", VERB SUBJ, „SPEECH-PART-2."
+      const subj = pick(NAMES);
+      const verb = pick(VERBS_SAY.filter(v => v !== 'fragt'));
+      // Two-part speech: pick two compatible statements
+      const pairs = [
+        ["Ich komme gleich", "und bringe Kuchen mit"],
+        ["Das ist wunderbar", "das gefällt mir sehr"],
+        ["Heute regnet es nicht", "wir können nach draußen"],
+        ["Ich habe Hunger", "lass uns essen"],
+        ["Morgen ist Schule", "ich muss früh ins Bett"],
+        ["Mein Hund schläft", "wir sollten leise sein"],
+        ["Wir gewinnen sicher", "ich habe lange trainiert"],
+        ["Das Buch ist spannend", "ich kann nicht aufhören"]
+      ];
+      const [p1, p2] = pick(pairs);
+      parts = [
+        { type: 'slot', solution: 'qo' },                          // „
+        { type: 'text', value: p1 },
+        { type: 'slot', solution: 'qc' },                          // "
+        { type: 'slot', solution: 'km' },                          // ,
+        { type: 'text', value: ' ' + verb + ' ' + subj },
+        { type: 'slot', solution: 'km' },                          // ,
+        { type: 'text', value: ' ' },
+        { type: 'slot', solution: 'qo' },                          // „
+        { type: 'text', value: p2 + '.' },
+        { type: 'slot', solution: 'qc' }                           // "
+      ];
+      solutionText =
+        `<span class="pz">„</span>${p1}<span class="pz">"</span><span class="pm">,</span> ${verb} ${subj}<span class="pm">,</span> <span class="pz">„</span>${p2}.<span class="pz">"</span>`;
+    }
+
+    return { parts, variant, solutionText };
+  }
+
+  // ============= Generate randomized exercise set =============
+  const TOTAL_QUESTIONS = 10;
+  function generateExerciseSet() {
+    // Mix: 4 vorne, 4 hinten, 2 eingeschoben (most challenging last category sparse)
+    const targetMix = [
+      ...Array(4).fill('vorne'),
+      ...Array(4).fill('hinten'),
+      ...Array(2).fill('eingeschoben')
+    ];
+    return shuffle(targetMix).map(v => buildExercise(v));
+  }
+
+  let exercises = generateExerciseSet();
+
+  // ============= State =============
+  let currentIndex = 0;
+  let score = 0;
+  let correctCount = 0;
+  let attemptedThis = false;
+
+  // ============= DOM =============
+  const container = document.getElementById('slideContainer');
+  const progressEl = document.getElementById('progress');
+  const scoreEl = document.getElementById('scoreVal');
+  const totalQEl = document.getElementById('totalQ');
+
+  const VARIANT_LABELS = {
+    vorne: 'Begleitsatz vorne',
+    hinten: 'Begleitsatz hinten',
+    eingeschoben: 'Begleitsatz eingeschoben'
+  };
+
+  function buildSlides() {
+    container.querySelectorAll('.slide[data-slide^="ex-"]').forEach(s => s.remove());
+    if (totalQEl) totalQEl.textContent = exercises.length;
+
+    const resultSlide = container.querySelector('[data-slide="result"]');
+
+    exercises.forEach((ex, idx) => {
+      const slide = document.createElement('section');
+      slide.className = 'slide';
+      slide.dataset.slide = `ex-${idx}`;
+
+      // Render parts. Each slot gets a unique id within this exercise.
+      let inner = '';
+      let slotIndex = 0;
+      ex.parts.forEach((p, pi) => {
+        if (p.type === 'text') {
+          // Escape HTML-sensitive chars (we only have plain German text here, so just keep)
+          inner += `<span class="word">${p.value}</span>`;
+        } else if (p.type === 'slot') {
+          inner += `<button class="slot" data-slot="${slotIndex}" data-ex="${idx}" data-current="none" aria-label="Satzzeichen wählen"></button>`;
+          slotIndex++;
+        }
+      });
+
+      // Count slots needed
+      const slotCount = ex.parts.filter(p => p.type === 'slot').length;
+
+      slide.innerHTML = `
+        <div class="question-meta">
+          <span class="tag">Satz ${idx + 1} / ${exercises.length}</span>
+          <span class="pill">📖 ${VARIANT_LABELS[ex.variant]}</span>
+          <span class="pill">${slotCount} Stellen</span>
+        </div>
+        <h2>Setze die <em>Satzzeichen</em>.</h2>
+        <p class="lead">Klicke auf die Kreise und rotiere durch: <strong>leer → „ → " → : → ,</strong> bis das richtige Zeichen erscheint. An jeder Klickstelle gehört ein Zeichen hin – überlege gut, welches!</p>
+
+        <div class="toolbar">
+          <span class="tool-chip"><span class="gl">„</span> öffnen</span>
+          <span class="tool-chip"><span class="gl">"</span> schließen</span>
+          <span class="tool-chip"><span class="gl colon">:</span> Doppelpunkt</span>
+          <span class="tool-chip"><span class="gl comma">,</span> Komma</span>
+        </div>
+
+        <div class="sentence-area" data-sentence="${idx}">${inner}</div>
+
+        <div class="feedback" id="feedback-${idx}"></div>
+
+        <div class="actions">
+          <div>
+            <button class="hint-btn" onclick="toggleHint(${idx})">💡 Tipp</button>
+            <div class="hint-text" id="hint-${idx}">${getHintText(ex)}</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn secondary" onclick="resetCurrent(${idx})">↻ Zurücksetzen</button>
+            <button class="btn" id="check-${idx}" onclick="checkAnswer(${idx})">Prüfen ✓</button>
+          </div>
+        </div>
+
+        <div class="legend">Klicke auf die Kreise im Satz, bis das richtige Zeichen erscheint.</div>
+      `;
+      container.insertBefore(slide, resultSlide);
+    });
+
+    // Attach slot click handlers
+    document.querySelectorAll('.slot').forEach(slot => {
+      slot.addEventListener('click', () => {
+        if (slot.classList.contains('correct') || slot.classList.contains('wrong') || slot.classList.contains('missed')) return;
+        rotateSlot(slot);
+      });
+    });
+  }
+
+  function getHintText(ex) {
+    if (ex.variant === 'vorne') {
+      return 'Begleitsatz vorne: nach dem Sprecher kommt ein <strong>Doppelpunkt</strong>, dann <strong>„</strong>, dann die Rede mit ihrem Satzzeichen, und schließlich <strong>"</strong>.';
+    } else if (ex.variant === 'hinten') {
+      return 'Begleitsatz hinten: erst <strong>„</strong>, dann die Rede (ohne Punkt), dann <strong>"</strong>, dann ein <strong>Komma</strong>, dann der Begleitsatz.';
+    } else {
+      return 'Eingeschoben: <strong>„</strong>...<strong>"</strong> + <strong>,</strong> + Begleitsatz + <strong>,</strong> + <strong>„</strong>...<strong>"</strong>';
+    }
+  }
+
+  buildSlides();
+
+  // ============= Logic =============
+  function showSlide(name) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector(`[data-slide="${name}"]`);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function startExercise() {
+    currentIndex = 0;
+    attemptedThis = false;
+    showSlide(`ex-${currentIndex}`);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const pct = (currentIndex / exercises.length) * 100;
+    progressEl.style.width = `${pct}%`;
+    scoreEl.textContent = score;
+  }
+
+  function toggleHint(idx) {
+    document.getElementById(`hint-${idx}`).classList.toggle('show');
+  }
+
+  function rotateSlot(slot) {
+    const current = slot.dataset.current;
+    const ci = ROTATION.indexOf(current);
+    const next = ROTATION[(ci + 1) % ROTATION.length];
+    slot.dataset.current = next;
+    if (next === 'none') {
+      slot.classList.remove('filled');
+      slot.textContent = '';
+    } else {
+      slot.classList.add('filled');
+      slot.textContent = SYMBOLS[next].display;
+    }
+  }
+
+  function resetCurrent(idx) {
+    if (attemptedThis) return;
+    document.querySelectorAll(`.slot[data-ex="${idx}"]`).forEach(s => {
+      s.dataset.current = 'none';
+      s.classList.remove('filled', 'correct', 'wrong', 'missed');
+      s.textContent = '';
+    });
+    const fb = document.getElementById(`feedback-${idx}`);
+    fb.classList.remove('show', 'success', 'error');
+    fb.innerHTML = '';
+  }
+
+  function checkAnswer(idx) {
+    if (attemptedThis) {
+      goNext(idx);
+      return;
+    }
+    attemptedThis = true;
+    const ex = exercises[idx];
+    const slots = document.querySelectorAll(`.slot[data-ex="${idx}"]`);
+    // Get expected solutions in slot order
+    const slotSolutions = ex.parts.filter(p => p.type === 'slot').map(p => p.solution);
+
+    let correctCountSlot = 0;
+    let wrongCountSlot = 0;
+    let missedCountSlot = 0;
+    let totalRequired = 0;
+
+    slots.forEach((slot, i) => {
+      const expected = slotSolutions[i];
+      const got = slot.dataset.current;
+      // In our exercises every slot is filled (we never have 'none' as a valid answer)
+      // because we only add slots where a symbol is needed.
+      if (expected !== 'none') totalRequired++;
+
+      if (got === expected) {
+        if (expected !== 'none') correctCountSlot++;
+        if (expected !== 'none') {
+          slot.classList.add('correct');
+        }
+      } else if (got === 'none' && expected !== 'none') {
+        // Missed
+        missedCountSlot++;
+        slot.classList.remove('filled');
+        slot.classList.add('missed');
+        slot.textContent = '';
+      } else {
+        // Wrong symbol placed (or symbol where none needed — but we don't have those)
+        wrongCountSlot++;
+        slot.classList.add('wrong');
+      }
+    });
+
+    const allCorrect = (correctCountSlot === totalRequired) && wrongCountSlot === 0 && missedCountSlot === 0;
+    const feedback = document.getElementById(`feedback-${idx}`);
+
+    if (allCorrect) {
+      score += 10;
+      correctCount++;
+      feedback.className = 'feedback success show';
+      feedback.innerHTML = `<strong>🎉 Alles richtig!</strong>Alle Satzzeichen sitzen perfekt. +10 Punkte`;
+      launchConfetti();
+    } else {
+      // Partial: 2 points per correct, minus 1 per wrong
+      const partial = Math.max(0, correctCountSlot * 2 - wrongCountSlot);
+      score += partial;
+      feedback.className = 'feedback error show';
+      let msg = `<strong>Nicht ganz!</strong>`;
+      msg += `Richtig gesetzt: <strong>${correctCountSlot}/${totalRequired}</strong>. `;
+      if (wrongCountSlot > 0) msg += `Falsche Zeichen: ${wrongCountSlot}. `;
+      if (missedCountSlot > 0) msg += `Fehlende Zeichen: ${missedCountSlot}. `;
+      msg += `<div class="solution"><span class="label">So ist es richtig:</span>${ex.solutionText}</div>`;
+      feedback.innerHTML = msg;
+    }
+
+    scoreEl.textContent = score;
+    updateProgress();
+
+    // Change button to "Next"
+    const btn = document.getElementById(`check-${idx}`);
+    if (idx < exercises.length - 1) {
+      btn.innerHTML = 'Nächster Satz →';
+      btn.classList.add('success-btn');
+    } else {
+      btn.innerHTML = 'Ergebnis ansehen 🏆';
+      btn.classList.add('success-btn');
+    }
+  }
+
+  function goNext(idx) {
+    attemptedThis = false;
+    if (idx < exercises.length - 1) {
+      currentIndex = idx + 1;
+      showSlide(`ex-${currentIndex}`);
+      updateProgress();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const total = exercises.length;
+    const pct = Math.round((correctCount / total) * 100);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalCorrect').textContent = `${correctCount}/${total}`;
+    document.getElementById('finalPercent').textContent = `${pct}%`;
+
+    let badgeText = '';
+    if (pct === 100) badgeText = '🏆 Redezeichen-Meister';
+    else if (pct >= 75) badgeText = '🌟 Redezeichen-Profi';
+    else if (pct >= 50) badgeText = '👍 Auf gutem Weg';
+    else badgeText = '💪 Weiter üben!';
+    document.getElementById('finalBadge').textContent = badgeText;
+
+    progressEl.style.width = '100%';
+    showSlide('result');
+
+    if (pct >= 75) launchConfetti(60);
+  }
+
+  function restart() {
+    currentIndex = 0;
+    score = 0;
+    correctCount = 0;
+    attemptedThis = false;
+    scoreEl.textContent = 0;
+    progressEl.style.width = '0%';
+
+    exercises = generateExerciseSet();
+    buildSlides();
+
+    showSlide('welcome');
+  }
+
+  // ============= Confetti =============
+  function launchConfetti(count = 30) {
+    const colors = ['#f582ae', '#8bd3dd', '#fef6e4', '#001858', '#f3d2c1', '#d62b6b'];
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }, i * 30);
+    }
+  }
+</script>
+</body>
+</html>
