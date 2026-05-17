@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hörverständnis · Holidays · Klasse 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef6e4;
+    --bg-2: #f3d2c1;
+    --ink: #001858;
+    --ink-soft: #172c66;
+    --paper: #fffaf0;
+    --accent: #f582ae;
+    --accent-2: #8bd3dd;
+    --good: #2e7d4f;
+    --good-bg: #d4f1d6;
+    --bad: #b3261e;
+    --bad-bg: #fbd6d3;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-soft: 4px 4px 0 var(--ink);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { min-height: 100%; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(245, 130, 174, 0.18) 0, transparent 35%),
+      radial-gradient(circle at 85% 80%, rgba(139, 211, 221, 0.22) 0, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(243, 210, 193, 0.15) 0, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .floater {
+    position: fixed;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    color: var(--ink);
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+    animation: float 14s ease-in-out infinite;
+  }
+  .floater:nth-child(1) { top: 8%;  left: 5%;  font-size: 90px;  animation-delay: 0s; }
+  .floater:nth-child(2) { top: 70%; left: 80%; font-size: 110px; animation-delay: -3s; }
+  .floater:nth-child(3) { top: 75%; left: 10%; font-size: 80px;  animation-delay: -6s; }
+  .floater:nth-child(4) { top: 15%; left: 75%; font-size: 100px; animation-delay: -9s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50%       { transform: translateY(-25px) rotate(6deg); }
+  }
+
+  header {
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--ink);
+    background: var(--paper);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+
+  .brand { display: flex; align-items: center; gap: 12px; }
+
+  .logo {
+    width: 44px;
+    height: 44px;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 1;
+    box-shadow: var(--shadow-soft);
+    transform: rotate(-5deg);
+  }
+
+  .brand h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  .brand .sub {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .score {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .score-icon { font-size: 18px; }
+
+  .progress-bar {
+    width: 200px;
+    height: 14px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .slide {
+    width: 100%;
+    max-width: 920px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 40px;
+    position: relative;
+    display: none;
+    animation: slideIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .slide.active { display: block; }
+
+  @keyframes slideIn {
+    0%   { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0)    scale(1); }
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .slide h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    margin-bottom: 14px;
+  }
+
+  .slide h2 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .slide .lead {
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Welcome ---------- */
+  .welcome { text-align: center; }
+  .welcome h2 { font-size: 48px; margin-bottom: 8px; }
+  .welcome .lead { font-size: 18px; margin-bottom: 24px; }
+
+  /* ---------- Audio card ---------- */
+  .audio-card {
+    background: var(--bg-2);
+    border: 3px solid var(--ink);
+    border-radius: 18px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+  }
+
+  .audio-card--compact {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .audio-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .audio-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    align-items: center;
+  }
+
+  .audio-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .audio-speed-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-left: auto;
+  }
+
+  input[type="range"] {
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    background: var(--accent);
+    border: 3px solid var(--ink);
+    color: var(--ink);
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .btn:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-soft);
+  }
+  .btn.secondary  { background: var(--paper); }
+  .btn.success-btn { background: var(--good); color: var(--paper); }
+
+  .hint-btn {
+    background: transparent;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .hint-btn:hover { background: var(--ink); color: var(--paper); }
+
+  .hint-text {
+    margin-top: 8px;
+    background: var(--bg-2);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.8;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+  .hint-text.show { display: block; }
+
+  .hint-text p { margin: 6px 0; }
+
+  .speaker { font-weight: 700; color: var(--ink); }
+
+  /* ---------- Question ---------- */
+  .question-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .question-prompt {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+
+  /* ---------- Answer grid ---------- */
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .answer-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    cursor: pointer;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    transition: all 0.15s;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .answer-btn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+    background: var(--bg);
+  }
+
+  .answer-btn:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .answer-btn:disabled { cursor: default; }
+
+  .answer-letter {
+    width: 30px;
+    height: 30px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .answer-btn.correct-answer {
+    background: var(--good-bg);
+    border-color: var(--good);
+    animation: correctPulse 0.6s ease;
+  }
+
+  .answer-btn.correct-answer .answer-letter { background: var(--good); }
+
+  .answer-btn.wrong-answer {
+    background: var(--bad-bg);
+    border-color: var(--bad);
+    animation: shake 0.4s;
+  }
+
+  .answer-btn.wrong-answer .answer-letter { background: var(--bad); }
+
+  @keyframes correctPulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.04); box-shadow: 8px 8px 0 var(--ink); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%       { transform: translateX(-6px); }
+    75%       { transform: translateX(6px); }
+  }
+
+  /* ---------- Feedback ---------- */
+  .feedback {
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: none;
+    font-size: 15px;
+    line-height: 1.5;
+    border: 2px solid;
+    animation: slideIn 0.4s ease;
+  }
+  .feedback.show    { display: block; }
+  .feedback.success { background: var(--good-bg); border-color: var(--good); color: var(--good); }
+  .feedback.error   { background: var(--bad-bg);  border-color: var(--bad);  color: var(--bad); }
+  .feedback strong {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ---------- Actions ---------- */
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  /* ---------- Result slide ---------- */
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .stat-card {
+    background: var(--bg);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  .badge-area { text-align: center; margin: 24px 0; }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent-2);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    padding: 14px 32px;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    box-shadow: var(--shadow-soft);
+    animation: badgePop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes badgePop {
+    0%   { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+
+  /* ---------- Confetti ---------- */
+  .confetti-piece {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    top: -20px;
+    z-index: 100;
+    animation: confettiFall 3s linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes confettiFall {
+    0%   { transform: translateY(0)    rotate(0deg);   opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 720px) {
+    header { padding: 14px 18px; flex-wrap: wrap; gap: 12px; }
+    .progress-bar { width: 120px; }
+    .slide { padding: 24px; }
+    .slide h2 { font-size: 28px; }
+    .welcome h2 { font-size: 32px; }
+    .answer-grid { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: 1fr; }
+    .question-prompt { font-size: 20px; }
+    .audio-card--compact { flex-direction: column; align-items: flex-start; }
+    .audio-speed-label { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="floater">Listen</div>
+<div class="floater">Hören</div>
+<div class="floater">Emma</div>
+<div class="floater">Tom</div>
+
+<header>
+  <div class="brand">
+    <div class="logo">L</div>
+    <div>
+      <h1>Hörverständnis</h1>
+      <div class="sub">Klasse 6 · Holidays · EN</div>
+    </div>
+  </div>
+  <div class="progress-wrap">
+    <div class="score">
+      <span class="score-icon">⭐</span>
+      <span id="scoreVal">0</span> Punkte
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+  </div>
+</header>
+
+<main id="slideContainer">
+
+  <!-- ====== Welcome Slide ====== -->
+  <section class="slide active" data-slide="welcome">
+    <div class="welcome">
+      <span class="tag">Los geht's!</span>
+      <h2>Hör gut <em>zu!</em></h2>
+      <p class="lead">Hör dir den englischen Dialog zwischen Emma und Tom an und beantworte <strong>8 Fragen</strong> zu Festen rund ums Jahr. Du kannst den Dialog so oft anhören, wie du möchtest.</p>
+
+      <div class="audio-card" style="text-align:left;">
+        <div class="audio-title">🎧 Dialog anhören</div>
+        <div class="audio-controls">
+          <button class="btn" id="playBtn">▶ Play</button>
+          <button class="btn secondary" id="pauseBtn" disabled>⏸ Pause</button>
+          <button class="btn secondary" id="stopBtn" disabled>⏹ Stop</button>
+        </div>
+        <div class="audio-row">
+          <label for="speed" style="font-weight:700;">Speed: <span id="speedVal">1.0</span>×</label>
+          <input type="range" id="speed" min="0.6" max="1.2" step="0.1" value="1.0">
+        </div>
+        <button class="hint-btn" id="showText">📄 Transkript anzeigen</button>
+        <div class="hint-text" id="transcript"></div>
+      </div>
+
+      <button class="btn" onclick="startExercise()">Übung starten →</button>
+    </div>
+  </section>
+
+  <!-- Exercise slides injected by buildSlides() -->
+
+  <!-- ====== Result Slide ====== -->
+  <section class="slide" data-slide="result">
+    <span class="tag">Fertig!</span>
+    <h2>Du hast es <em>geschafft!</em></h2>
+    <p class="lead">Hier ist dein Ergebnis. Möchtest du nochmal üben?</p>
+
+    <div class="badge-area">
+      <div class="badge" id="finalBadge">🌟 Hör-Profi</div>
+    </div>
+
+    <div class="result-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="finalScore">0</div>
+        <div class="stat-label">Punkte gesamt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalCorrect">0/8</div>
+        <div class="stat-label">Richtige Antworten</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="finalPercent">0%</div>
+        <div class="stat-label">Erfolgsquote</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="btn" onclick="restart()">🔁 Nochmal üben</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // ============ DIALOGUE ============
+  const dialogue = [
+    { speaker: "Emma", text: "Hi Tom! What are you doing for the holidays this year?" },
+    { speaker: "Tom",  text: "Hello Emma! At Christmas my family is going to visit my grandparents in Scotland. We always have a big dinner with turkey and pudding." },
+    { speaker: "Emma", text: "That sounds lovely! Do you also get presents on Christmas Eve?" },
+    { speaker: "Tom",  text: "No, in England we open our presents on Christmas Day, in the morning. What about you?" },
+    { speaker: "Emma", text: "In Germany we open them on the twenty-fourth of December, in the evening. And on New Year's Eve we watch the fireworks at midnight." },
+    { speaker: "Tom",  text: "Cool! My favourite holiday is actually Easter. We hide chocolate eggs in the garden and the little kids have to find them." },
+    { speaker: "Emma", text: "We do that too! But we also paint real eggs with our families. Last year I painted twelve eggs in one afternoon." },
+    { speaker: "Tom",  text: "Wow, twelve? That's a lot! By the way, are you going somewhere at Easter?" },
+    { speaker: "Emma", text: "Yes, we are flying to Spain for one week. I can't wait!" },
+    { speaker: "Tom",  text: "Lucky you! Have a great time, Emma." }
+  ];
+
+  // ============ QUESTIONS ============
+  const questions = [
+    {
+      q: "Where is Tom going at Christmas?",
+      options: ["To Spain", "To Scotland", "To Germany", "To his school"],
+      correct: 1
+    },
+    {
+      q: "What does Tom's family eat at Christmas?",
+      options: ["Pizza and salad", "Fish and chips", "Turkey and pudding", "Sausages and bread"],
+      correct: 2
+    },
+    {
+      q: "When do English families open their presents?",
+      options: ["On Christmas Eve in the evening", "On Christmas Day in the morning", "On the 26th of December", "On New Year's Eve"],
+      correct: 1
+    },
+    {
+      q: "What do German families do on New Year's Eve at midnight?",
+      options: ["They eat turkey", "They paint eggs", "They watch fireworks", "They open presents"],
+      correct: 2
+    },
+    {
+      q: "What is Tom's favourite holiday?",
+      options: ["Christmas", "New Year's Eve", "His birthday", "Easter"],
+      correct: 3
+    },
+    {
+      q: "How many eggs did Emma paint last year?",
+      options: ["Two", "Ten", "Twelve", "Twenty"],
+      correct: 2
+    },
+    {
+      q: "Where is Emma going at Easter?",
+      options: ["To Scotland", "To Spain", "To her grandparents", "She is staying at home"],
+      correct: 1
+    },
+    {
+      q: "How long is Emma staying there?",
+      options: ["One day", "One weekend", "One week", "Two weeks"],
+      correct: 2
+    }
+  ];
+
+  // ============ HELPERS ============
+  const shuffle = arr => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+
+  const LETTERS = ['A', 'B', 'C', 'D'];
+  const TOTAL_QUESTIONS = 8;
+
+  // ============ GENERATE EXERCISE SET ============
+  function generateExerciseSet() {
+    const pool = questions.map(q => ({
+      q: q.q,
+      options: [...q.options],
+      correctText: q.options[q.correct]
+    }));
+    return shuffle(pool).map(q => {
+      const opts = shuffle(q.options);
+      return { q: q.q, options: opts, correct: opts.indexOf(q.correctText) };
+    });
+  }
+
+  let exercises = generateExerciseSet();
+
+  // ============= State =============
+  let currentIndex = 0;
+  let score = 0;
+  let correctCount = 0;
+
+  // ============= DOM =============
+  const slideContainer = document.getElementById('slideContainer');
+  const progressEl = document.getElementById('progress');
+  const scoreEl = document.getElementById('scoreVal');
+
+  // ============= BUILD SLIDES =============
+  function buildSlides() {
+    slideContainer.querySelectorAll('.slide[data-slide^="ex-"]').forEach(s => s.remove());
+    const resultSlide = slideContainer.querySelector('[data-slide="result"]');
+
+    exercises.forEach((ex, idx) => {
+      const slide = document.createElement('section');
+      slide.className = 'slide';
+      slide.dataset.slide = `ex-${idx}`;
+
+      let optionsHTML = '';
+      ex.options.forEach((opt, oi) => {
+        optionsHTML += `
+          <button class="answer-btn" data-opt="${oi}" onclick="pickAnswer(${idx}, ${oi})">
+            <span class="answer-letter">${LETTERS[oi]}</span>
+            <span class="answer-text">${opt}</span>
+          </button>`;
+      });
+
+      const isLast = idx === exercises.length - 1;
+      slide.innerHTML = `
+        <div class="audio-card audio-card--compact">
+          <button class="btn secondary" onclick="replayDialogue()" style="font-size:14px;padding:8px 18px;">🎧 Dialog nochmal hören</button>
+          <span class="audio-speed-label">Speed: <span class="speed-display">1.0</span>×</span>
+        </div>
+        <div class="question-meta">
+          <span class="tag">Frage ${idx + 1} / ${TOTAL_QUESTIONS}</span>
+        </div>
+        <p class="question-prompt">${ex.q}</p>
+        <div class="answer-grid" id="answers-${idx}">
+          ${optionsHTML}
+        </div>
+        <div class="feedback" id="feedback-${idx}"></div>
+        <div class="actions">
+          <button class="btn success-btn" id="next-${idx}" disabled onclick="goNext()">
+            ${isLast ? 'Ergebnis ansehen 🏆' : 'Nächste Frage →'}
+          </button>
+        </div>
+      `;
+      slideContainer.insertBefore(slide, resultSlide);
+    });
+  }
+
+  // ============= LOGIC =============
+  function showSlide(name) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector(`[data-slide="${name}"]`);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function startExercise() {
+    synth.cancel();
+    resetButtons();
+    currentIndex = 0;
+    showSlide('ex-0');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    progressEl.style.width = `${(currentIndex / exercises.length) * 100}%`;
+    scoreEl.textContent = score;
+  }
+
+  function pickAnswer(idx, optIdx) {
+    if (idx !== currentIndex) return;
+    const ex = exercises[idx];
+    const btns = document.querySelectorAll(`#answers-${idx} .answer-btn`);
+
+    btns.forEach(b => { b.disabled = true; });
+
+    const chosenText = ex.options[optIdx];
+    const correctText = ex.options[ex.correct];
+    const feedback = document.getElementById(`feedback-${idx}`);
+
+    if (optIdx === ex.correct) {
+      btns[optIdx].classList.add('correct-answer');
+      score += 10;
+      correctCount++;
+      scoreEl.textContent = score;
+      feedback.className = 'feedback success show';
+      feedback.innerHTML = `<strong>Richtig!</strong>Genau – „${chosenText}“ ist die richtige Antwort.`;
+      launchConfetti();
+    } else {
+      btns[optIdx].classList.add('wrong-answer');
+      btns[ex.correct].classList.add('correct-answer');
+      feedback.className = 'feedback error show';
+      feedback.innerHTML = `<strong>Hör nochmal hin.</strong>Die richtige Antwort wäre: „${correctText}“`;
+    }
+
+    document.getElementById(`next-${idx}`).disabled = false;
+  }
+
+  function goNext() {
+    if (currentIndex < exercises.length - 1) {
+      currentIndex++;
+      showSlide(`ex-${currentIndex}`);
+      updateProgress();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    const pct = Math.round((correctCount / exercises.length) * 100);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalCorrect').textContent = `${correctCount}/${exercises.length}`;
+    document.getElementById('finalPercent').textContent = `${pct}%`;
+
+    let badge = '';
+    if (pct === 100)    badge = '🏆 Listening-Meister';
+    else if (pct >= 75) badge = '🌟 Hör-Profi';
+    else if (pct >= 50) badge = '👍 Auf gutem Weg';
+    else                badge = '💪 Weiter üben!';
+    document.getElementById('finalBadge').textContent = badge;
+
+    progressEl.style.width = '100%';
+    showSlide('result');
+    if (pct >= 75) launchConfetti(60);
+  }
+
+  function restart() {
+    synth.cancel();
+    resetButtons();
+    currentIndex = 0;
+    score = 0;
+    correctCount = 0;
+    scoreEl.textContent = 0;
+    progressEl.style.width = '0%';
+    exercises = generateExerciseSet();
+    buildSlides();
+    updateSpeedDisplays();
+    showSlide('welcome');
+  }
+
+  // ============= CONFETTI =============
+  function launchConfetti(count = 30) {
+    const colors = ['#f582ae', '#8bd3dd', '#ffd166', '#c8b6ff', '#001858'];
+    for (let i = 0; i < count; i++) {
+      setTimeout(() => {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4000);
+      }, i * 30);
+    }
+  }
+
+  // ============= TEXT-TO-SPEECH =============
+  const synth = window.speechSynthesis;
+  let voices = [];
+  let queue = [];
+  let queueIndex = 0;
+  let isPaused = false;
+
+  const speedSlider = document.getElementById('speed');
+  const speedValEl  = document.getElementById('speedVal');
+  const playBtn     = document.getElementById('playBtn');
+  const pauseBtn    = document.getElementById('pauseBtn');
+  const stopBtn     = document.getElementById('stopBtn');
+
+  function updateSpeedDisplays() {
+    const val = parseFloat(speedSlider.value).toFixed(1);
+    speedValEl.textContent = val;
+    document.querySelectorAll('.speed-display').forEach(el => el.textContent = val);
+  }
+
+  speedSlider.addEventListener('input', updateSpeedDisplays);
+
+  function loadVoices() {
+    voices = synth.getVoices().filter(v => v.lang.startsWith('en'));
+  }
+  loadVoices();
+  if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = loadVoices;
+
+  function pickVoice(speaker) {
+    if (voices.length === 0) return null;
+    if (speaker === 'Tom') {
+      return voices.find(v => v.name === 'Daniel')
+          || voices.find(v => v.lang === 'en-GB')
+          || voices[0];
+    }
+    return voices.find(v => v.name === 'Samantha')
+        || voices.find(v => v.lang === 'en-US')
+        || voices[0];
+  }
+
+  function speakNext() {
+    if (queueIndex >= queue.length) { resetButtons(); return; }
+    const line = queue[queueIndex];
+    const u = new SpeechSynthesisUtterance(line.text);
+    const v = pickVoice(line.speaker);
+    if (v) u.voice = v;
+    u.rate  = parseFloat(speedSlider.value);
+    u.pitch = line.speaker === 'Emma' ? 1.1 : 0.95;
+    u.onend = () => { queueIndex++; speakNext(); };
+    synth.speak(u);
+  }
+
+  function resetButtons() {
+    playBtn.disabled = false;
+    pauseBtn.disabled = true;
+    stopBtn.disabled = true;
+    pauseBtn.textContent = '⏸ Pause';
+    isPaused = false;
+  }
+
+  function replayDialogue() {
+    synth.cancel();
+    isPaused = false;
+    queue = dialogue.slice();
+    queueIndex = 0;
+    speakNext();
+    playBtn.disabled = true;
+    pauseBtn.disabled = false;
+    stopBtn.disabled = false;
+    pauseBtn.textContent = '⏸ Pause';
+  }
+
+  playBtn.addEventListener('click', () => {
+    if (isPaused) {
+      synth.resume();
+      isPaused = false;
+      pauseBtn.textContent = '⏸ Pause';
+      return;
+    }
+    replayDialogue();
+  });
+
+  pauseBtn.addEventListener('click', () => {
+    if (isPaused) {
+      synth.resume();
+      isPaused = false;
+      pauseBtn.textContent = '⏸ Pause';
+    } else {
+      synth.pause();
+      isPaused = true;
+      pauseBtn.textContent = '▶ Weiter';
+    }
+  });
+
+  stopBtn.addEventListener('click', () => {
+    synth.cancel();
+    resetButtons();
+  });
+
+  // Build transcript
+  const transcriptDiv = document.getElementById('transcript');
+  dialogue.forEach(line => {
+    const p = document.createElement('p');
+    p.innerHTML = `<strong class="speaker">${line.speaker}:</strong> ${line.text}`;
+    transcriptDiv.appendChild(p);
+  });
+
+  document.getElementById('showText').addEventListener('click', () => {
+    const t = document.getElementById('transcript');
+    const btn = document.getElementById('showText');
+    t.classList.toggle('show');
+    btn.textContent = t.classList.contains('show') ? '📄 Transkript ausblenden' : '📄 Transkript anzeigen';
+  });
+
+  // ============= INIT =============
+  buildSlides();
+</script>
+</body>
+</html>

@@ -192,6 +192,7 @@
   .exercise-card:nth-child(1) { animation-delay: 0.05s; }
   .exercise-card:nth-child(2) { animation-delay: 0.12s; }
   .exercise-card:nth-child(3) { animation-delay: 0.19s; }
+  .exercise-card:nth-child(4) { animation-delay: 0.26s; }
 
   @keyframes slideIn {
     0%   { opacity: 0; transform: translateY(32px) scale(0.96); }
@@ -223,6 +224,7 @@
   .chip-adverbien  { background: #c8b6ff; color: #2e1a73; }
   .chip-komma      { background: #ffd166; color: #5e4200; }
   .chip-redezeichen{ background: var(--accent); color: #5a0e35; }
+  .chip-listening  { background: var(--accent-2); color: #003c4a; }
 
   .card-title {
     font-family: 'Fraunces', serif;
@@ -273,7 +275,7 @@
       <div class="sub">Deutsch · Klasse 6</div>
     </div>
   </div>
-  <div class="header-badge">3 Übungen</div>
+  <div class="header-badge">4 Übungen</div>
 </header>
 
 <main>
@@ -315,6 +317,19 @@
         <div class="card-chip chip-redezeichen">Wörtl. Rede</div>
         <div class="card-title">Redezeichen</div>
         <p class="card-desc">Setze die Satzzeichen der wörtlichen Rede durch Klick-Rotation richtig ein.</p>
+        <div class="card-arrow">
+          Übung starten
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </a>
+
+      <a href="Mia-Listening.html" class="exercise-card">
+        <div class="card-icon">🎧</div>
+        <div class="card-chip chip-listening">Listening · EN</div>
+        <div class="card-title">Holidays</div>
+        <p class="card-desc">Hör dir den englischen Dialog an und beantworte die Fragen rund um Feste im Jahr.</p>
         <div class="card-arrow">
           Übung starten
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
